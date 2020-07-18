@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
+path="res://.import/playerDummy-moveHorizontal.png-a5d62a8d6f2366a0cf1346246e802763.stex"
 
 [deps]
 
-source_file="res://icon.png"
-dest_files=[ "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex" ]
+source_file="res://Assets/Art/playerDummy-moveHorizontal.png"
+dest_files=[ "res://.import/playerDummy-moveHorizontal.png-a5d62a8d6f2366a0cf1346246e802763.stex" ]
 
 [params]
 
