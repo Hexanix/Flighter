@@ -40,7 +40,6 @@ enum stateAction{
 	parry
 }
 
-
 var currentMoveState
 var currentActionState
 
@@ -108,7 +107,12 @@ func input_handle():
 		
 		if Input.is_action_just_pressed("wingflap"):
 				velocityToAdd.y = 0
-				velocityToAdd.y += flapPower                                                              
+				velocityToAdd.y += flapPower       
+	#WALL_CLING
+	elif currentMoveState == stateMovement.wall_cling:
+		if Input.is_action_just_pressed("wingflap"):
+			velocityToAdd.y += flapPower/2
+			                                                       
 	
 	pass
 	
@@ -129,6 +133,7 @@ func state_handle():
 	for i in range(get_slide_count()):
 		var currentCollider = get_slide_collision(i).get_collider()
 		
+		#GROUND
 		if currentCollider.is_in_group("ground"):
 			velocity.y = 0
 			
@@ -140,7 +145,12 @@ func state_handle():
 				currentMoveState = stateMovement.moving_ground
 				return
 				pass
+				
+		#WALL
 		elif currentCollider.is_in_group("wall"):
+			#Get wall's slipperiness
+			velocity.y = currentCollider.slipFactor
+			
 			currentMoveState = stateMovement.wall_cling
 			return
 			pass
@@ -162,48 +172,6 @@ func friction_handle():
 
 #Dash slowdown handle
 func dash_handle():
-	pass
-
-#Includes:
-#	- Friction
-#	- Dash slowdown
-#	- Gravity
-func natural_forces_handle(moveState):
-	#Add Gravity. Number dividing represents how slowly gravity will stack.
-	velocity.y += gravity/7
-	
-	#If correct state, check rubberband force
-	if moveState == stateMovement.moving_ground:
-		friction_handle()
-		
-	elif moveState == stateMovement.dash:
-		dash_handle()	
-		pass
-
-func _physics_process(delta):
-	
-	#Input handler event
-	input_handle()
-	
-	#State handler
-	state_handle()
-	
-	#Handle rubberbanding of movement
-	natural_forces_handle(currentMoveState)
-
-	#Regulate velocity
-	velocity.x += velocityToAdd.x
-	velocity.y += velocityToAdd.y
-	
-	#Have a separate velocity for dashing, which is added post-clamp
-	#and has a different rubberbanding force than normal movement
-	velocity.y = clamp(velocity.y, velocity_VerLimit.x, velocity_VerLimit.y)
-	velocity.x = clamp(velocity.x, velocity_HorLimit.x, velocity_HorLimit.y)
-	
-
-	
-	#TODO: Make this pretty
-	#Add the dash to velocity
 	velocity += velocityDash
 	
 	#Dash downwind
@@ -217,6 +185,43 @@ func _physics_process(delta):
 			velocityToAdd.x  = 0
 	pass
 
+#Includes:
+#	- Friction
+#	- Dash slowdown - NOT WORKING IN THIS FUNCTION
+#	- Gravity
+func natural_forces_handle(moveState):
+	#Add Gravity. Number dividing represents how slowly gravity will stack.
+	velocity.y += gravity/7
+	
+	#If correct state, check rubberband force
+	if moveState == stateMovement.moving_ground:
+		friction_handle()
+	
+	pass
+
+func _physics_process(delta):
+	
+	#Input handler event
+	input_handle()
+	
+	#State handler
+	state_handle()
+
+	#Handle rubberbanding of movement
+	natural_forces_handle(currentMoveState)
+
+	#Regulate velocity
+	velocity.x += velocityToAdd.x
+	velocity.y += velocityToAdd.y
+	
+	#Have a separate velocity for dashing, which is added post-clamp
+	#and has a different rubberbanding force than normal movement
+	velocity.y = clamp(velocity.y, velocity_VerLimit.x, velocity_VerLimit.y)
+	velocity.x = clamp(velocity.x, velocity_HorLimit.x, velocity_HorLimit.y)
+	
+	#Dash Handling happens here for now.
+	dash_handle()
+	
 	#Move 
 	move_and_slide(velocity*delta)
 	

@@ -3,9 +3,9 @@ extends Node
 enum terrainGroups{
 	ground,
 	wall,
-	spikes,
 	ceiling
 }
+
 
 func getValue(var enumObj, var enumValue):
 	return enumObj.keys()[enumValue]

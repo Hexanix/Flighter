@@ -11,5 +11,5 @@ func _ready():
 	pass
 
 func _process(delta):
-	position = nodePlayerBody.position
+
 	pass

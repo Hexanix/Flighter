@@ -13,6 +13,7 @@ func group_adding():
 
 func _ready():
 	varNode = get_node("../VarNodes/Groups")
+	
 	group_adding()                                                                                                                                                                                                                                                                                                    
 	
 	pass
