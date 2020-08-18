@@ -23,9 +23,12 @@ var speedVertical = 100000
 export var frict = 0.6
 export var gravity = 2.3
 
+#Singletons
+onready var groupsTerrain = get_node("/root/groupsTerrainType")
+onready var groupsTerrainArea = get_node("/root/groupsTerrainArea")
 
 #States of the player, both variants#
-enum stateMovement{
+enum stateMovement{ 
 	idle_air,
 	idle_ground, 
 	moving_air, 
@@ -60,7 +63,6 @@ func _ready():
 	flapPower -= gravity
 	
 	gravity *= speedVertical/15
-	
 	
 	
 	#Velocity initialized#
@@ -112,7 +114,7 @@ func input_handle():
 	elif currentMoveState == stateMovement.wall_cling:
 		if Input.is_action_just_pressed("wingflap"):
 			velocityToAdd.y += flapPower/2
-			                                                       
+																   
 	
 	pass
 	
@@ -134,7 +136,7 @@ func state_handle():
 		var currentCollider = get_slide_collision(i).get_collider()
 		
 		#GROUND
-		if currentCollider.is_in_group("ground"):
+		if currentCollider.is_in_group(groupsTerrain.GROUND):
 			velocity.y = 0
 			
 			if velocity.x == 0:
@@ -147,7 +149,7 @@ func state_handle():
 				pass
 				
 		#WALL
-		elif currentCollider.is_in_group("wall"):
+		elif currentCollider.is_in_group(groupsTerrain.WALL):
 			#Get wall's slipperiness
 			velocity.y = currentCollider.slipFactor
 			
@@ -180,7 +182,7 @@ func dash_handle():
 		if velocityDash.x - dashSlowdown < 0:
 			velocityDash.x  = 0
 	elif velocityDash.x < 0:
-		velocityDash.x  += dashSlowdown
+		velocityDash.x += dashSlowdown
 		if velocityDash.x + frict > 0:
 			velocityToAdd.x  = 0
 	pass
@@ -231,3 +233,14 @@ func _physics_process(delta):
 
 	
 	pass
+
+#SIGNALS
+func _on_RightArea_body_entered(_body):
+	print("right")
+	pass 
+
+
+
+func _on_LeftArea_body_entered(_body):
+	print("left")
+	pass 

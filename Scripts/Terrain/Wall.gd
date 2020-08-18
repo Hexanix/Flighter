@@ -1,25 +1,22 @@
 extends StaticBody2D
 
-#nodes for varNodes
-var varNode_Group
+onready var groupsTerrain = get_node("/root/groupsTerrainType")
+onready var groupsTerrainArea = get_node("/root/groupsTerrainArea")
+
 
 #Terrain-specific variables
 export var slipFactor = 0
 
 
-func group_adding(var varNode):	
+func group_adding():
 	#Wall
-	add_to_group(varNode.getValue(
-	varNode.fromTerrainGroups(), 
-	varNode.fromTerrainGroups().wall))
+	add_to_group(groupsTerrain.WALL)
 	pass
 
 func _ready():
-	#get varNodes
-	varNode_Group = get_node("../VarNodes/Groups")
-	
 	#Add to groups
-	group_adding(varNode_Group)
+	group_adding()
+	
 	pass
 
 func _process(delta):
