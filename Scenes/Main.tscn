@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
+[ext_resource path="res://Scripts/Areas/AreaCling.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Terrain/Ground.gd" type="Script" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
@@ -9,7 +10,7 @@
 extents = Vector2( 611.408, 12.928 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 195.856, 2.43494 )
+extents = Vector2( 195.921, 2.43494 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 98.5602, 16.3291 )
@@ -19,7 +20,7 @@ extents = Vector2( 98.5602, 16.3291 )
 [node name="World" type="Node2D" parent="."]
 
 [node name="playerNode" parent="World" instance=ExtResource( 2 )]
-position = Vector2( 446.914, 700.428 )
+position = Vector2( 457.642, 699.014 )
 scale = Vector2( 1.98438, 1.98438 )
 
 [node name="Floor" type="StaticBody2D" parent="World"]
@@ -42,7 +43,7 @@ position = Vector2( 1599.85, 615.672 )
 rotation = 1.57079
 scale = Vector2( 2.24363, 1.17188 )
 collision_layer = 16
-collision_mask = 3
+collision_mask = 2147483649
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/RightWall"]
@@ -53,19 +54,22 @@ position = Vector2( -53.5776, -3.61968 )
 scale = Vector2( 8.58358, 0.509759 )
 texture = ExtResource( 4 )
 
-[node name="Area2D" type="Area2D" parent="World/RightWall"]
+[node name="AreaCling" type="Area2D" parent="World/RightWall"]
+position = Vector2( 3.05176e-05, -14.5066 )
+collision_layer = 32
+collision_mask = 2147483650
+script = ExtResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/RightWall/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/RightWall/AreaCling"]
 modulate = Color( 0.368627, 1, 0.0823529, 1 )
-position = Vector2( -78.0981, 9.88953 )
+position = Vector2( -77.2343, 25.1498 )
 shape = SubResource( 2 )
 
 [node name="LeftWall" type="StaticBody2D" parent="World"]
-position = Vector2( 284.963, 156.051 )
+position = Vector2( 285.963, 156.051 )
 rotation = 1.57079
 scale = Vector2( 2.24363, 1.17188 )
 collision_layer = 16
-collision_mask = 3
 script = ExtResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="World/LeftWall"]

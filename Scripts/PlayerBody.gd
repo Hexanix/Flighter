@@ -19,6 +19,9 @@ export var flapPower = 1
 var speedHorizontal = 5000
 var speedVertical = 100000
 
+#Bools
+var is_clinging = false
+
 #World Variables
 export var frict = 0.6
 export var gravity = 2.3
@@ -45,6 +48,27 @@ enum stateAction{
 
 var currentMoveState
 var currentActionState
+
+#Function which sets the position of Area2D side to the edge of PlayerBody 
+func areaClingHandle():
+	var areaBodyLeft = get_node("LeftArea/LeftShape")
+	var areaBodyRight = get_node("RightArea/RightShape")
+	var playerBody = get_node("BodyShape")
+	
+	if Input.is_action_pressed("ui_right"):
+		areaBodyRight.position.x = playerBody.position.x + 30
+		pass
+	elif Input.is_action_just_released("ui_right"):
+		areaBodyRight.position.x = playerBody.position.x 
+		pass
+			
+	if Input.is_action_just_pressed("ui_left"):
+		areaBodyLeft.position.x = playerBody.position.x - 30
+		pass
+	elif Input.is_action_just_released("ui_left"):
+		areaBodyLeft.position.x = playerBody.position.x 
+		pass
+
 
 #System functions
 func _ready():
@@ -78,6 +102,10 @@ func _ready():
 
 #Custom functions
 func input_handle():
+	
+	#HANDLE AREAS 
+	areaClingHandle()
+	
 	#Check state and determine calculations
 	#DASH 
 	if Input.is_action_just_pressed("dash"):
@@ -109,26 +137,27 @@ func input_handle():
 		
 		if Input.is_action_just_pressed("wingflap"):
 				velocityToAdd.y = 0
-				velocityToAdd.y += flapPower       
+				velocityToAdd.y += flapPower      
+				 
 	#WALL_CLING
 	elif currentMoveState == stateMovement.wall_cling:
-		if Input.is_action_just_pressed("wingflap"):
-			velocityToAdd.y += flapPower/2
-																   
+		pass
 	
-	pass
-	
-#Checks in proccess if states should be changed
+#Checks in proccess if states should be changed due to PlayerBody interactions
 func state_handle():
 	#If it is not changed, it stays in the air.
 	if velocityDash.x != 0 or velocityDash.y != 0:
 		currentMoveState = stateMovement.dash
 		pass
 	
-	if velocity.x != 0:
-		currentMoveState = stateMovement.moving_air
-	else:
-		currentMoveState = stateMovement.idle_air
+	#Set initial state to airborne
+	if velocity.y != 0 and currentMoveState != stateMovement.wall_cling:
+		if velocity.x != 0:
+			currentMoveState = stateMovement.moving_air
+		else:
+			currentMoveState = stateMovement.idle_air
+			pass
+			
 		pass
 	
 	#Check if colliding with any terrain
@@ -149,15 +178,11 @@ func state_handle():
 				pass
 				
 		#WALL
-		elif currentCollider.is_in_group(groupsTerrain.WALL):
-			#Get wall's slipperiness
-			velocity.y = currentCollider.slipFactor
-			
-			currentMoveState = stateMovement.wall_cling
-			return
+		elif currentMoveState == stateMovement.wall_cling:
+			print("woa")
+			velocity.y = 0
+			velocityToAdd.y = 0
 			pass
-		pass
-		#If nothing returns, obviously mid-air.
 	pass
 
 #Friction handle
@@ -193,11 +218,14 @@ func dash_handle():
 #	- Gravity
 func natural_forces_handle(moveState):
 	#Add Gravity. Number dividing represents how slowly gravity will stack.
-	velocity.y += gravity/7
+	velocityToAdd.y += gravity/7
 	
 	#If correct state, check rubberband force
 	if moveState == stateMovement.moving_ground:
 		friction_handle()
+	elif moveState == stateMovement.wall_cling:
+		velocity.y = 0
+		velocityToAdd.y = 0
 	
 	pass
 
@@ -208,7 +236,8 @@ func _physics_process(delta):
 	
 	#State handler
 	state_handle()
-
+	print(currentMoveState)
+	
 	#Handle rubberbanding of movement
 	natural_forces_handle(currentMoveState)
 
@@ -235,12 +264,42 @@ func _physics_process(delta):
 	pass
 
 #SIGNALS
-func _on_RightArea_body_entered(_body):
-	print("right")
-	pass 
 
+#Checks in proccess if states should be changed due to AREA interactions
+#Area-On-Area collision handling
 
+#Switch state and change is_clinging bool (might be obsolete)
+func _on_RightArea_area_entered(area):
+	
+	if area.is_in_group(groupsTerrainArea.WALL_CLING):
+		print("right")
+		#velocity.y = area.slipFactor
+		currentMoveState = stateMovement.wall_cling
+		is_clinging = true
+		pass 
 
-func _on_LeftArea_body_entered(_body):
-	print("left")
-	pass 
+func _on_LeftArea_area_exited(area):
+	
+	if area.is_in_group(groupsTerrainArea.WALL_CLING):
+		print("off-left")
+		
+		currentMoveState = stateMovement.idle_air
+		is_clinging = false
+		pass # Replace with function body.
+
+func _on_LeftArea_area_entered(area):
+	if area.is_in_group(groupsTerrainArea.WALL_CLING):
+		print("left")
+		#velocity.y = area.slipFactor
+		currentMoveState = stateMovement.wall_cling
+		is_clinging = true
+		pass 
+
+func _on_RightArea_area_exited(area):
+	if area.is_in_group(groupsTerrainArea.WALL_CLING):
+		print("off-right")
+		#velocity.y = area.slipFactor
+		
+		currentMoveState = stateMovement.idle_air
+		is_clinging = false
+		pass # Replace with function body.

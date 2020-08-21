@@ -22,27 +22,47 @@ script = ExtResource( 3 )
 texture = ExtResource( 2 )
 
 [node name="BodyShape" type="CollisionShape2D" parent="playerBody"]
-position = Vector2( 0.0562897, 0.239925 )
+position = Vector2( -0.31797, 0.239925 )
 scale = Vector2( 1, 3.07692 )
 shape = SubResource( 1 )
 
 [node name="RightArea" type="Area2D" parent="playerBody"]
 collision_layer = 2
-collision_mask = 16
+collision_mask = 2147483682
 
 [node name="RightShape" type="CollisionShape2D" parent="playerBody/RightArea"]
 modulate = Color( 0.368627, 1, 0.0823529, 1 )
-position = Vector2( 27.1931, 1.37685 )
+position = Vector2( 27.0442, 1.27513 )
 rotation = 4.71238
 shape = SubResource( 2 )
 
+[node name="Sprite" type="Sprite" parent="playerBody/RightArea/RightShape"]
+position = Vector2( -0.360418, -0.578659 )
+scale = Vector2( 0.513864, 0.154782 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="LeftArea" type="Area2D" parent="playerBody"]
 collision_layer = 2
-collision_mask = 16
+collision_mask = 34
 
 [node name="LeftShape" type="CollisionShape2D" parent="playerBody/LeftArea"]
 modulate = Color( 0.368627, 1, 0.0823529, 1 )
-position = Vector2( -26.6043, 0.336157 )
+position = Vector2( -26.8025, 0.327633 )
 shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="playerBody/LeftArea/LeftShape"]
+position = Vector2( 0.176773, -2.65837e-05 )
+scale = Vector2( 0.143738, 0.524913 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+[connection signal="area_entered" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_area_entered"]
+[connection signal="area_exited" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_area_exited"]
 [connection signal="body_entered" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_body_entered"]
+[connection signal="area_entered" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_area_entered"]
+[connection signal="area_exited" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_area_exited"]
 [connection signal="body_entered" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_body_entered"]

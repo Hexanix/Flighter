@@ -4,10 +4,6 @@ onready var groupsTerrain = get_node("/root/groupsTerrainType")
 onready var groupsTerrainArea = get_node("/root/groupsTerrainArea")
 
 
-#Terrain-specific variables
-export var slipFactor = 0
-
-
 func group_adding():
 	#Wall
 	add_to_group(groupsTerrain.WALL)
