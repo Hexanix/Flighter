@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Areas/AreaCling.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Terrain/Ground.gd" type="Script" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Terrain/Wall.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Areas/AreaSlip.gd" type="Script" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 611.408, 12.928 )
@@ -14,6 +15,9 @@ extents = Vector2( 195.921, 2.43494 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 98.5602, 16.3291 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 55.6905, 7.64905 )
 
 [node name="Main" type="Node"]
 
@@ -86,3 +90,14 @@ shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="AreaCling" type="Area2D" parent="World/LeftWall"]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/LeftWall/AreaCling"]
+modulate = Color( 0.372549, 1, 0.2, 1 )
+light_mask = -2147483647
+position = Vector2( 81.1186, -13.6523 )
+shape = SubResource( 4 )

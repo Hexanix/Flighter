@@ -60,9 +60,3 @@ texture = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
-[connection signal="area_entered" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_area_entered"]
-[connection signal="area_exited" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_area_exited"]
-[connection signal="body_entered" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_body_entered"]
-[connection signal="area_entered" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_area_entered"]
-[connection signal="area_exited" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_area_exited"]
-[connection signal="body_entered" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_body_entered"]
