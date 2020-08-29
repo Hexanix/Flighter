@@ -24,7 +24,7 @@ extents = Vector2( 55.6905, 7.64905 )
 [node name="World" type="Node2D" parent="."]
 
 [node name="playerNode" parent="World" instance=ExtResource( 2 )]
-position = Vector2( 457.642, 699.014 )
+position = Vector2( 458.834, 699.544 )
 scale = Vector2( 1.98438, 1.98438 )
 
 [node name="Floor" type="StaticBody2D" parent="World"]
@@ -38,7 +38,7 @@ script = ExtResource( 3 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="World/Floor"]
-position = Vector2( 0.121948, -3.28162 )
+position = Vector2( -0.114166, -2.82947 )
 scale = Vector2( 19.1218, 0.283467 )
 texture = ExtResource( 4 )
 
@@ -99,5 +99,5 @@ script = ExtResource( 6 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/LeftWall/AreaCling"]
 modulate = Color( 0.372549, 1, 0.2, 1 )
 light_mask = -2147483647
-position = Vector2( 81.1186, -13.6523 )
+position = Vector2( 81.5643, -9.38565 )
 shape = SubResource( 4 )

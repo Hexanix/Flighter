@@ -19,16 +19,30 @@ export var flapPower = 1
 var speedHorizontal = 5000
 var speedVertical = 100000
 
+var currentClingSlideSpeed = 0
+
+#Flap Count and Max Flax Count
+var flapMax = 2
+var flapCurrent = flapMax
+
 #Bools
-var is_clinging = false
+onready var is_grounded = false
 
 #World Variables
 export var frict = 0.6
 export var gravity = 2.3
 
+#FONT
+onready var defFont = load("res://Assets/Font/defo.tres")
+
 #Areas
 onready var areaLeft = get_node("LeftArea")
 onready var areaRight = get_node("RightArea")
+onready var areaTop = get_node("TopArea")
+onready var areaBottom = get_node("BottomArea")
+
+onready var areaClingLeft = get_node("LeftClingArea")
+onready var areaClingRight = get_node("RightClingArea")
 
 #Singletons
 onready var groupsTerrain = get_node("/root/groupsTerrainType")
@@ -55,22 +69,20 @@ var currentActionState
 
 #Function which sets the position of Area2D side to the edge of PlayerBody 
 func areaClingHandle():
-	var areaBodyLeft = get_node("LeftArea/LeftShape")
-	var areaBodyRight = get_node("RightArea/RightShape")
 	var playerBody = get_node("BodyShape")
 	
 	if Input.is_action_pressed("ui_right"):
-		areaBodyRight.position.x = playerBody.position.x + 30
+		areaClingRight.position.x = playerBody.position.x + 30
 		pass
 	elif Input.is_action_just_released("ui_right"):
-		areaBodyRight.position.x = playerBody.position.x 
+		areaClingRight.position.x = playerBody.position.x 
 		pass
 			
 	if Input.is_action_just_pressed("ui_left"):
-		areaBodyLeft.position.x = playerBody.position.x - 30
+		areaClingLeft.position.x = playerBody.position.x - 30
 		pass
 	elif Input.is_action_just_released("ui_left"):
-		areaBodyLeft.position.x = playerBody.position.x 
+		areaClingLeft.position.x = playerBody.position.x 
 		pass
 
 
@@ -128,7 +140,6 @@ func input_handle():
 			velocityToAdd.x -= acceleration
 		
 		if Input.is_action_just_pressed("wingflap"):
-			#velocityToAdd.y = 0
 			velocityToAdd.y += jumpPower
 				
 	#IDLE_AIR
@@ -140,69 +151,57 @@ func input_handle():
 		if Input.is_action_pressed("ui_left"):
 			velocityToAdd.x -= acceleration
 		
-		if Input.is_action_just_pressed("wingflap"):
+		if Input.is_action_just_pressed("wingflap") and flapCurrent != 0:
 				velocityToAdd.y = 0
 				velocityToAdd.y += flapPower      
+				
+				flapCurrent -= 1
 				 
 	#WALL_CLING
 	elif currentMoveState == stateMovement.wall_cling:
+		#velocity.y = 0
+		velocityToAdd.y = currentClingSlideSpeed
 		pass
 	
 #Checks in proccess if states should be changed due to PlayerBody interactions
-func state_handle():
-	#Set initial currentMoveState to Idle Air
-	currentMoveState = stateMovement.idle_air
+func  state_handle():
 	
+	#Check if dashing
 	if velocityDash.x != 0 or velocityDash.y != 0:
 		currentMoveState = stateMovement.dash
 		pass
-	
-	#This is horrendous, I want to make it prettier.
-	if areaRight.get_overlapping_areas().size() > 0:
-		if areaRight.get_overlapping_areas()[0].get_groups().has(groupsTerrainArea.WALL_CLING):
-			currentMoveState = stateMovement.wall_cling
-			pass
-		pass
-		
-	elif areaLeft.get_overlapping_areas().size() > 0:
-		if areaLeft.get_overlapping_areas()[0].get_groups().has(groupsTerrainArea.WALL_CLING):
-			currentMoveState = stateMovement.wall_cling
-			pass
-		pass
-	
-	#Set initial state to airborne
-	if velocity.y != 0 and currentMoveState != stateMovement.wall_cling:
+
+	#Check if any common movement states
+	if is_grounded:
+		if velocity.x != 0:
+			currentMoveState = stateMovement.moving_ground
+		else:
+			currentMoveState = stateMovement.idle_ground
+	else:
 		if velocity.x != 0:
 			currentMoveState = stateMovement.moving_air
 		else:
 			currentMoveState = stateMovement.idle_air
-			pass
 			
 		pass
-
-	for i in range(get_slide_count()):
-		var currentCollider = get_slide_collision(i).get_collider()
-			
-		#GROUND
-		if currentCollider.is_in_group(groupsTerrain.GROUND):
-			velocity.y = 0
-				
-			if velocity.x == 0:
-				currentMoveState = stateMovement.idle_ground
-				return
-				pass
-			else:
-				currentMoveState = stateMovement.moving_ground
-				return
-				pass					
-		#WALL
-		elif currentMoveState == stateMovement.wall_cling:
-			print("woa")
-			velocity.y = 0
-			velocityToAdd.y = 0
-			pass
+		
+		
+	#Check if Cling Areas are in effect
+	check_clingArea(areaClingRight)
+	check_clingArea(areaClingLeft)
+		
 	pass
 
+#Check cling area
+func check_clingArea(area):
+	if area.get_overlapping_areas().size() > 0:
+		if area.get_overlapping_areas()[0].is_in_group(groupsTerrainArea.WALL_CLING):
+			currentMoveState = stateMovement.wall_cling
+			currentClingSlideSpeed =  area.get_overlapping_areas()[0].slipFactor * gravity
+			pass
+		pass
+	pass
+	
 #Friction handle
 func friction_handle():
 	if velocity.x > 0:
@@ -235,15 +234,17 @@ func dash_handle():
 #	- Dash slowdown - NOT WORKING IN THIS FUNCTION
 #	- Gravity
 func natural_forces_handle(moveState):
-	#Add Gravity. Number dividing represents how slowly gravity will stack.
-	velocityToAdd.y += gravity/7
 	
-	#If correct state, check rubberband force
+	#Don't add gravity if clinging or grounded
+	if moveState == stateMovement.wall_cling:
+		velocity.y = 0
+	elif !is_grounded:
+		velocity.y += gravity/7
+		
 	if moveState == stateMovement.moving_ground:
 		friction_handle()
-	elif moveState == stateMovement.wall_cling:
-		velocity.y = 0
-		velocityToAdd.y = 0
+	#If correct state, check rubberband force
+	
 	
 	pass
 
@@ -277,47 +278,44 @@ func _physics_process(delta):
 	#Reset velToAdd variable
 	velocityToAdd.x = 0
 	velocityToAdd.y = 0
-
-	
 	pass
 
-#SIGNALS
+#Area of main body sides
+func _on_TopArea_body_entered(body):
+	velocity.y = 0
+	velocityToAdd.y = 0
+	pass # Replace with function body.
 
-#Checks in proccess if states should be changed due to AREA interactions
-#Area-On-Area collision handling
+func _on_BottomArea_body_entered(area):
+	is_grounded = true
+	flapCurrent = flapMax
+	
+	print("aa")
+	
+	velocity.y = 0
+	velocityToAdd.y = 0
+	pass # Replace with function body.
 
-##Switch state and change is_clinging bool (might be obsolete)
-#func _on_RightArea_area_entered(area):
-#
-#	if area.is_in_group(groupsTerrainArea.WALL_CLING):
-#		print("right")
-#		#velocity.y = area.slipFactor
-#		currentMoveState = stateMovement.wall_cling
-#		is_clinging = true
-#		pass 
-#
-#func _on_LeftArea_area_exited(area):
-#
-#	if area.is_in_group(groupsTerrainArea.WALL_CLING):
-#		print("off-left")
-#
-#		currentMoveState = stateMovement.idle_air
-#		is_clinging = false
-#		pass # Replace with function body.
-##
-#func _on_LeftArea_area_entered(area):
-#	if area.is_in_group(groupsTerrainArea.WALL_CLING):
-#		print("left")
-#		#velocity.y = area.slipFactor
-#		currentMoveState = stateMovement.wall_cling
-#		is_clinging = true
-#		pass 
-##
-#func _on_RightArea_area_exited(area):
-#	if area.is_in_group(groupsTerrainArea.WALL_CLING):
-#		print("off-right")
-#		#velocity.y = area.slipFactor
-#
-#		currentMoveState = stateMovement.idle_air
-#		is_clinging = false
-#		pass # Replace with function body.
+func _on_LeftArea_body_entered(area):
+	velocity.x = 0
+	velocityToAdd.x = 0
+	pass 
+	
+func _on_RightArea_body_entered(area):
+	velocity.x = 0
+	velocityToAdd.x = 0
+	pass 
+
+
+func _on_BottomArea_body_exited(area):
+	is_grounded = false
+	#velocity.y = 0
+	#velocityToAdd.y = 0
+	
+	print("bb")
+	
+	pass # Replace with function body.
+
+	velocity.x = 0
+	velocityToAdd.x = 0
+	pass # Replace with function body.

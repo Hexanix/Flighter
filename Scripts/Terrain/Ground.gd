@@ -6,7 +6,7 @@ onready var groupsTerrainArea = get_node("/root/groupsTerrainArea")
 
 func group_adding():	
 	#Ground
-	add_to_group(groupsTerrain.GROUND)
+	add_to_group(groupsTerrain.GENERAL)
 	
 	pass
 

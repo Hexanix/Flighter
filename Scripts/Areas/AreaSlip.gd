@@ -4,7 +4,7 @@ extends Area2D
 onready var groupsTerrainArea = get_node("/root/groupsTerrainArea")
 
 #Area-specific variables
-export var slipFactor = 5
+export var slipFactor = 0.5
 
 func group_adding():
 	#WallCling
