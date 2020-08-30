@@ -35,6 +35,9 @@ export var gravity = 2.3
 #FONT
 onready var defFont = load("res://Assets/Font/defo.tres")
 
+#Sprite
+onready var playerSprite = get_node("AnimatedSprite")
+
 #Areas
 onready var areaLeft = get_node("LeftArea")
 onready var areaRight = get_node("RightArea")
@@ -72,14 +75,14 @@ func areaClingHandle():
 	var playerBody = get_node("BodyShape")
 	
 	if Input.is_action_pressed("ui_right"):
-		areaClingRight.position.x = playerBody.position.x + 30
+		areaClingRight.position.x = playerBody.position.x + 15
 		pass
 	elif Input.is_action_just_released("ui_right"):
 		areaClingRight.position.x = playerBody.position.x 
 		pass
 			
 	if Input.is_action_just_pressed("ui_left"):
-		areaClingLeft.position.x = playerBody.position.x - 30
+		areaClingLeft.position.x = playerBody.position.x - 15
 		pass
 	elif Input.is_action_just_released("ui_left"):
 		areaClingLeft.position.x = playerBody.position.x 
@@ -172,7 +175,7 @@ func  state_handle():
 		pass
 
 	#Check if any common movement states
-	if is_grounded:
+	elif is_grounded:
 		if velocity.x != 0:
 			currentMoveState = stateMovement.moving_ground
 		else:
@@ -190,6 +193,27 @@ func  state_handle():
 	check_clingArea(areaClingRight)
 	check_clingArea(areaClingLeft)
 		
+	pass
+
+#Sets animation according to state and variables
+func animation_handle():
+	
+	match currentMoveState:
+		stateMovement.idle_ground:
+			playerSprite.play("idle")
+			
+		stateMovement.moving_ground:
+			playerSprite.play("run")
+			
+		stateMovement.idle_air, stateMovement.moving_air:
+			playerSprite.play("jump")
+			
+		stateMovement.dash:
+			playerSprite.play("dash")
+		
+		stateMovement.wall_cling:
+			playerSprite.play("wallCling")
+			
 	pass
 
 #Check cling area
@@ -257,6 +281,9 @@ func _physics_process(delta):
 	state_handle()
 	print(currentMoveState)
 	
+	#Animation handle
+	animation_handle()
+	
 	#Handle rubberbanding of movement
 	natural_forces_handle(currentMoveState)
 
@@ -281,12 +308,12 @@ func _physics_process(delta):
 	pass
 
 #Area of main body sides
-func _on_TopArea_body_entered(body):
+func _on_TopArea_body_entered(_body):
 	velocity.y = 0
 	velocityToAdd.y = 0
 	pass # Replace with function body.
 
-func _on_BottomArea_body_entered(area):
+func _on_BottomArea_body_entered(_area):
 	is_grounded = true
 	flapCurrent = flapMax
 	
@@ -296,18 +323,18 @@ func _on_BottomArea_body_entered(area):
 	velocityToAdd.y = 0
 	pass # Replace with function body.
 
-func _on_LeftArea_body_entered(area):
+func _on_LeftArea_body_entered(_area):
 	velocity.x = 0
 	velocityToAdd.x = 0
 	pass 
 	
-func _on_RightArea_body_entered(area):
+func _on_RightArea_body_entered(_area):
 	velocity.x = 0
 	velocityToAdd.x = 0
 	pass 
 
 
-func _on_BottomArea_body_exited(area):
+func _on_BottomArea_body_exited(_area):
 	is_grounded = false
 	#velocity.y = 0
 	#velocityToAdd.y = 0
