@@ -1,103 +1,108 @@
+<<<<<<< Updated upstream
 [gd_scene load_steps=11 format=2]
+=======
+[gd_scene load_steps=14 format=2]
+>>>>>>> Stashed changes
 
-[ext_resource path="res://Scripts/Areas/AreaCling.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Terrain/SolidTerrain.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Terrain/Ground.gd" type="Script" id=3]
+<<<<<<< Updated upstream
 [ext_resource path="res://icon.png" type="Texture" id=4]
+=======
+[ext_resource path="res://Scripts/Areas/AreaCling.gd" type="Script" id=4]
+>>>>>>> Stashed changes
 [ext_resource path="res://Scripts/Terrain/Wall.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/Areas/AreaSlip.gd" type="Script" id=6]
 
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 64, 128 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 16, 112 )
+
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 611.408, 12.928 )
+extents = Vector2( 608.449, 64.0001 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 195.921, 2.43494 )
+extents = Vector2( 128, 64 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 98.5602, 16.3291 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 55.6905, 7.64905 )
+extents = Vector2( 64, 192 )
 
 [node name="Main" type="Node"]
 
 [node name="World" type="Node2D" parent="."]
 
+<<<<<<< Updated upstream
+=======
+[node name="Sprite" type="Sprite" parent="World"]
+position = Vector2( 840, 512 )
+texture = ExtResource( 7 )
+
+>>>>>>> Stashed changes
 [node name="playerNode" parent="World" instance=ExtResource( 2 )]
-position = Vector2( 458.834, 699.544 )
+position = Vector2( 436.562, 553.437 )
 scale = Vector2( 1.98438, 1.98438 )
 
-[node name="Floor" type="StaticBody2D" parent="World"]
-position = Vector2( 855.453, 888.725 )
-scale = Vector2( 2.24363, 1.17188 )
+[node name="TileMap" type="TileMap" parent="World"]
+tile_set = ExtResource( 8 )
 collision_layer = 16
+<<<<<<< Updated upstream
 collision_mask = 3
 script = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Floor"]
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="World/Floor"]
-position = Vector2( -0.114166, -2.82947 )
-scale = Vector2( 19.1218, 0.283467 )
-texture = ExtResource( 4 )
-
-[node name="RightWall" type="StaticBody2D" parent="World"]
-position = Vector2( 1599.85, 615.672 )
-rotation = 1.57079
-scale = Vector2( 2.24363, 1.17188 )
-collision_layer = 16
-collision_mask = 2147483649
-script = ExtResource( 5 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/RightWall"]
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="World/RightWall"]
-position = Vector2( -53.5776, -3.61968 )
-scale = Vector2( 8.58358, 0.509759 )
-texture = ExtResource( 4 )
-
-[node name="AreaCling" type="Area2D" parent="World/RightWall"]
-position = Vector2( 3.05176e-05, -14.5066 )
-collision_layer = 32
-collision_mask = 2147483650
+=======
+format = 1
+tile_data = PoolIntArray( 24, 1, 0, 25, 1, 0, 65560, 1, 0, 65561, 1, 1, 131096, 1, 0, 131097, 1, 1, 196611, 1, 0, 196612, 1, 0, 196632, 1, 65536, 196633, 1, 1, 262147, 1, 0, 262148, 1, 65537, 262168, 1, 0, 262169, 1, 1, 327683, 1, 0, 327684, 1, 65537, 327704, 1, 0, 327705, 1, 0, 393219, 1, 0, 393220, 1, 0, 393240, 2, 0, 393241, 2, 2, 458755, 2, 0, 458756, 2, 2, 458776, 2, 65536, 458777, 2, 65538, 524291, 2, 65536, 524292, 2, 65538, 524302, 2, 0, 524303, 2, 1, 524304, 2, 1, 524305, 2, 2, 524312, 2, 65536, 524313, 2, 65538, 589827, 2, 65536, 589828, 2, 65538, 589838, 2, 131072, 589839, 2, 131073, 589840, 2, 131073, 589841, 2, 131074, 589848, 2, 65536, 589849, 2, 65538, 655363, 2, 65536, 655364, 2, 65538, 655384, 2, 65536, 655385, 2, 65538, 720899, 2, 65536, 720900, 2, 65538, 720920, 2, 131072, 720921, 2, 131074, 786435, 2, 131072, 786436, 2, 131074, 786437, 2, 0, 786438, 2, 1, 786439, 2, 1, 786440, 2, 1, 786441, 2, 1, 786442, 2, 1, 786443, 2, 1, 786444, 2, 1, 786445, 2, 1, 786446, 2, 1, 786447, 2, 1, 786448, 2, 1, 786449, 2, 1, 786450, 2, 1, 786451, 2, 1, 786452, 2, 1, 786453, 2, 1, 786454, 2, 1, 786455, 2, 2, 851973, 2, 131072, 851974, 2, 131073, 851975, 2, 131073, 851976, 2, 131073, 851977, 2, 131073, 851978, 2, 131073, 851979, 2, 131073, 851980, 2, 131073, 851981, 2, 131073, 851982, 2, 131073, 851983, 2, 131073, 851984, 2, 131073, 851985, 2, 131073, 851986, 2, 131073, 851987, 2, 131073, 851988, 2, 131073, 851989, 2, 131073, 851990, 2, 131073, 851991, 2, 131074 )
 script = ExtResource( 1 )
+>>>>>>> Stashed changes
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/RightWall/AreaCling"]
-modulate = Color( 0.368627, 1, 0.0823529, 1 )
-position = Vector2( -77.2343, 25.1498 )
-shape = SubResource( 2 )
+[node name="ClingStopBodies" type="StaticBody2D" parent="."]
+collision_layer = 48
+script = ExtResource( 4 )
 
-[node name="LeftWall" type="StaticBody2D" parent="World"]
-position = Vector2( 285.963, 156.051 )
-rotation = 1.57079
-scale = Vector2( 2.24363, 1.17188 )
-collision_layer = 16
-script = ExtResource( 5 )
+[node name="stop1" type="CollisionShape2D" parent="ClingStopBodies"]
+modulate = Color( 0.658824, 0.164706, 1, 1 )
+position = Vector2( 1600, 256 )
+shape = SubResource( 4 )
 
-[node name="Sprite" type="Sprite" parent="World/LeftWall"]
-position = Vector2( 121.335, -3.61968 )
-scale = Vector2( 3.11757, 0.509759 )
-texture = ExtResource( 4 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/LeftWall"]
-position = Vector2( 123.499, -4.05766 )
-shape = SubResource( 3 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="AreaCling" type="Area2D" parent="World/LeftWall"]
-collision_layer = 32
-collision_mask = 2
+[node name="ClingSlideBodies" type="StaticBody2D" parent="."]
+collision_layer = 48
 script = ExtResource( 6 )
 
+[node name="slide1" type="CollisionShape2D" parent="ClingSlideBodies"]
+modulate = Color( 0.556863, 0.870588, 0.137255, 1 )
+position = Vector2( 304, 336 )
+shape = SubResource( 5 )
+
+[node name="GroundBodies" type="StaticBody2D" parent="."]
+collision_layer = 16
+script = ExtResource( 3 )
+
+[node name="ground1" type="CollisionShape2D" parent="GroundBodies"]
+position = Vector2( 928, 832 )
+shape = SubResource( 1 )
+
+[node name="ground2" type="CollisionShape2D" parent="GroundBodies"]
+position = Vector2( 1024, 576 )
+shape = SubResource( 2 )
+
+[node name="WallBodies" type="StaticBody2D" parent="."]
+collision_layer = 16
+script = ExtResource( 5 )
+
+[node name="wall1" type="CollisionShape2D" parent="WallBodies"]
+position = Vector2( 256, 640 )
+shape = SubResource( 3 )
+
+<<<<<<< Updated upstream
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/LeftWall/AreaCling"]
 modulate = Color( 0.372549, 1, 0.2, 1 )
 light_mask = -2147483647
 position = Vector2( 81.5643, -9.38565 )
 shape = SubResource( 4 )
+=======
+[node name="wall2" type="CollisionShape2D" parent="WallBodies"]
+position = Vector2( 1600, 576 )
+shape = SubResource( 3 )
+>>>>>>> Stashed changes
