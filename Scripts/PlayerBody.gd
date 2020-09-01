@@ -123,6 +123,16 @@ func input_handle():
 	#HANDLE AREAS 
 	areaClingHandle()
 	
+	#Check if sprite is to be flipped
+	if Input.is_action_just_pressed("ui_left"):
+		playerSprite.set_flip_h(true)
+		pass
+		
+	elif Input.is_action_just_pressed("ui_right"):
+		playerSprite.set_flip_h(false)
+		pass
+		
+
 	#Check state and determine calculations
 	#DASH 
 	if Input.is_action_just_pressed("dash"):

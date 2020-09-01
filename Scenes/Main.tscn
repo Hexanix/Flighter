@@ -1,11 +1,12 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Areas/AreaCling.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scripts/Terrain/Ground.gd" type="Script" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Terrain/Wall.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/Areas/AreaSlip.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Art/Backgrounds/skycastle.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Art/Tilemap/Tileset/test_tileset.tres" type="TileSet" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 611.408, 12.928 )
@@ -23,6 +24,10 @@ extents = Vector2( 55.6905, 7.64905 )
 
 [node name="World" type="Node2D" parent="."]
 
+[node name="Sprite" type="Sprite" parent="World"]
+position = Vector2( 851.358, 515.639 )
+texture = ExtResource( 7 )
+
 [node name="playerNode" parent="World" instance=ExtResource( 2 )]
 position = Vector2( 458.834, 699.544 )
 scale = Vector2( 1.98438, 1.98438 )
@@ -32,7 +37,6 @@ position = Vector2( 855.453, 888.725 )
 scale = Vector2( 2.24363, 1.17188 )
 collision_layer = 16
 collision_mask = 3
-script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Floor"]
 shape = SubResource( 1 )
@@ -101,3 +105,8 @@ modulate = Color( 0.372549, 1, 0.2, 1 )
 light_mask = -2147483647
 position = Vector2( 81.5643, -9.38565 )
 shape = SubResource( 4 )
+
+[node name="TileMap" type="TileMap" parent="World"]
+tile_set = ExtResource( 8 )
+format = 1
+tile_data = PoolIntArray( 786438, 0, 0, 786439, 0, 1, 786440, 0, 1, 786441, 0, 1, 786442, 0, 1, 786443, 0, 1, 786444, 0, 1, 786445, 0, 1, 786446, 0, 1, 786447, 0, 1, 786448, 0, 1, 786449, 0, 2, 851974, 0, 131072, 851975, 0, 131073, 851976, 0, 131073, 851977, 0, 131073, 851978, 0, 131073, 851979, 0, 131073, 851980, 0, 131073, 851981, 0, 131073, 851982, 0, 131073, 851983, 0, 131073, 851984, 0, 131073, 851985, 0, 131074 )

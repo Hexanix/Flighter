@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends TileMap
 
 
 onready var groupsTerrain = get_node("/root/groupsTerrainType")
