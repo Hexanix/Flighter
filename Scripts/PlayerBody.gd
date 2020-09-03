@@ -35,13 +35,8 @@ export var gravity = 2.3
 #FONT
 onready var defFont = load("res://Assets/Font/defo.tres")
 
-<<<<<<< Updated upstream
 #Sprite
 onready var playerSprite = get_node("AnimatedSprite")
-=======
-#Sprites
-onready var playerSprite = get_node("playerSprite")
->>>>>>> Stashed changes
 
 #Areas
 onready var areaLeft = get_node("LeftArea")
@@ -134,16 +129,10 @@ func input_handle():
 	#Check state and determine calculations
 	#DASH 
 	if Input.is_action_just_pressed("dash"):
-		
 		if Input.is_action_pressed("ui_left"):
 			velocityDash.x -= dashPower
 		elif Input.is_action_pressed("ui_right"):
 			velocityDash.x += dashPower
-			
-	#ATTACK - direct state change currently
-	if Input.is_action_just_pressed("attack"):
-		currentActionState = stateAction.attack
-		pass
 
 	#IDLE_GROUND
 	if currentMoveState == stateMovement.idle_ground or currentMoveState == stateMovement.moving_ground:
@@ -206,18 +195,13 @@ func  state_handle():
 		
 	pass
 
-<<<<<<< Updated upstream
 #Sets animation according to state and variables
 func animation_handle():
 	
-=======
-func animation_handle():
->>>>>>> Stashed changes
 	match currentMoveState:
 		stateMovement.idle_ground:
 			playerSprite.play("idle")
 			
-<<<<<<< Updated upstream
 		stateMovement.moving_ground:
 			playerSprite.play("run")
 			
@@ -230,66 +214,18 @@ func animation_handle():
 		stateMovement.wall_cling:
 			playerSprite.play("wallCling")
 			
-=======
-		stateMovement.idle_ground:
-			playerSprite.play("idle")
-		
-		stateMovement.moving_ground:
-			playerSprite.play("run")
-			
-		stateMovement.dash:
-			playerSprite.play("slide")
-		
-		stateMovement.idle_air, stateMovement.moving_air:
-			playerSprite.play("jump")
-			
-		stateMovement.wall_cling:
-			playerSprite.play("wallCling")
-	
-	match currentActionState:
-		stateAction.attack:
-			playerSprite.play("attack")
-	
->>>>>>> Stashed changes
 	pass
 
 #Check cling area
 func check_clingArea(area):
-	if area.get_overlapping_bodies().size() > 0:
-		if area.get_overlapping_bodies()[0].is_in_group(groupsTerrainArea.WALL_CLING):
+	if area.get_overlapping_areas().size() > 0:
+		if area.get_overlapping_areas()[0].is_in_group(groupsTerrainArea.WALL_CLING):
 			currentMoveState = stateMovement.wall_cling
-			currentClingSlideSpeed =  area.get_overlapping_bodies()[0].slipFactor * gravity
+			currentClingSlideSpeed =  area.get_overlapping_areas()[0].slipFactor * gravity
 			pass
 		pass
 	pass
 	
-
-#Make all these handles use the same method please
-
-#This is supposed to be a generic function, but Godot makes it not work and frankly I can't be bothered looking 
-#up why, so code stays lengthy and silly now, fucking sue me.
-func genericRubberband_handler(varToTest, varToAdd, rubberbandForce, pivotVariable):
-		if varToTest > pivotVariable:
-			varToAdd -= rubberbandForce
-			if varToTest - rubberbandForce < pivotVariable:
-				varToAdd  = -varToTest
-		elif varToTest < pivotVariable:
-			varToAdd  += rubberbandForce
-			if varToTest + rubberbandForce > pivotVariable:
-				varToAdd = -varToTest
-pass
-
-#Wall slide handle
-func clingSlide_handle():
-		if velocity.y > 0:
-			velocityToAdd.y -= gravity/3
-			if velocity.y - gravity/3 < 0:
-				velocityToAdd.y = -velocity.y
-		elif velocity.y < 0:
-			velocityToAdd.y  += gravity/3
-			if velocity.y + gravity/3 > 0:
-				velocityToAdd.y = -velocity.y
-
 #Friction handle
 func friction_handle():
 	if velocity.x > 0:
@@ -325,12 +261,7 @@ func natural_forces_handle(moveState):
 	
 	#Don't add gravity if clinging or grounded
 	if moveState == stateMovement.wall_cling:
-		if velocity.y != 0:
-			clingSlide_handle()
-		else:
-			velocity.y = 0
-		pass
-		
+		velocity.y = 0
 	elif !is_grounded:
 		velocity.y += gravity/7
 		
@@ -350,11 +281,7 @@ func _physics_process(delta):
 	state_handle()
 	print(currentMoveState)
 	
-<<<<<<< Updated upstream
 	#Animation handle
-=======
-	#Play correct animation according to state
->>>>>>> Stashed changes
 	animation_handle()
 	
 	#Handle rubberbanding of movement
