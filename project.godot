@@ -19,6 +19,11 @@ config/name="New Game Project"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+groupsTerrainArea="*res://Scripts/Group/groupsTerrainArea.gd"
+groupsTerrainType="*res://Scripts/Group/groupsTerrainType.gd"
+
 [display]
 
 window/size/width=1600
@@ -31,7 +36,20 @@ wingflap={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":90,"unicode":0,"echo":false,"script":null)
  ]
 }
+dash={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+attack={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":88,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
-[rendering]
+[layer_names]
 
-environment/default_environment="res://default_env.tres"
+2d_physics/layer_1="Characters"
+2d_physics/layer_2="PlayerAreas"
+2d_physics/layer_5="Terrain"
+2d_physics/layer_6="TerrainAreas"
