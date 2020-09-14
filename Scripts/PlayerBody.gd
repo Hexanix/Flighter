@@ -32,11 +32,8 @@ onready var is_grounded = false
 export var frict = 0.6
 export var gravity = 2.3
 
-#FONT
-onready var defFont = load("res://Assets/Font/defo.tres")
-
-#Sprite
-onready var playerSprite = get_node("AnimatedSprite")
+#Sprites
+onready var playerSprite = get_node("playerSprite")
 
 #Areas
 onready var areaLeft = get_node("LeftArea")
@@ -64,11 +61,12 @@ enum stateMovement{
 enum stateAction{
 	neutral,
 	attack,
+	attack_up,
 	parry
 }
 
-var currentMoveState
-var currentActionState
+export var currentMoveState = stateMovement.idle_ground
+export var currentActionState = stateAction.neutral
 
 #Function which sets the position of Area2D side to the edge of PlayerBody 
 func areaClingHandle():
@@ -126,46 +124,71 @@ func input_handle():
 	#HANDLE AREAS 
 	areaClingHandle()
 	
-	#Check state and determine calculations
-	#DASH 
-	if Input.is_action_just_pressed("dash"):
-		if Input.is_action_pressed("ui_left"):
-			velocityDash.x -= dashPower
-		elif Input.is_action_pressed("ui_right"):
-			velocityDash.x += dashPower
-
-	#IDLE_GROUND
-	if currentMoveState == stateMovement.idle_ground or currentMoveState == stateMovement.moving_ground:
-		if Input.is_action_pressed("ui_right"):
-			velocityToAdd.x += acceleration
-				
-		if Input.is_action_pressed("ui_left"):
-			velocityToAdd.x -= acceleration
+	#Check if action state is neutral branch
+	if currentActionState != stateAction.parry and currentActionState != stateAction.attack_up:
 		
-		if Input.is_action_just_pressed("wingflap"):
-			velocityToAdd.y += jumpPower
-				
-	#IDLE_AIR
-	elif currentMoveState == stateMovement.idle_air or currentMoveState == stateMovement.moving_air:
-		
-		if Input.is_action_pressed("ui_right"):
-			velocityToAdd.x += acceleration
-				
-		if Input.is_action_pressed("ui_left"):
-			velocityToAdd.x -= acceleration
-		
-		if Input.is_action_just_pressed("wingflap") and flapCurrent != 0:
-				velocityToAdd.y = 0
-				velocityToAdd.y += flapPower      
-				
-				flapCurrent -= 1
-				 
-	#WALL_CLING
-	elif currentMoveState == stateMovement.wall_cling:
-		#velocity.y = 0
-		velocityToAdd.y = currentClingSlideSpeed
+		#No h_flip while attacking, only movement
+		if currentActionState != stateAction.attack:
+			#Flip sprite
+			if Input.is_action_pressed("ui_left"):
+				playerSprite.set_flip_h(true)
+				pass
+			elif Input.is_action_pressed("ui_right"):
+				playerSprite.set_flip_h(false)
+				pass
 		pass
+		
+		#Check state and determine calculations
+		#DASH 
+		if Input.is_action_just_pressed("dash"):
+			
+			if Input.is_action_pressed("ui_left"):
+				velocityDash.x -= dashPower
+			elif Input.is_action_pressed("ui_right"):
+				velocityDash.x += dashPower
+				
+		#ATTACK - direct state change currently
+		if Input.is_action_just_pressed("attack"):
+			
+			if Input.is_action_pressed("ui_up"):
+				currentActionState = stateAction.attack_up
+			else:
+				currentActionState = stateAction.attack
+			pass
 	
+		#IDLE_GROUND
+		if currentMoveState == stateMovement.idle_ground or currentMoveState == stateMovement.moving_ground:
+			if Input.is_action_pressed("ui_right"):
+				velocityToAdd.x += acceleration
+					
+			if Input.is_action_pressed("ui_left"):
+				velocityToAdd.x -= acceleration
+			
+			if Input.is_action_just_pressed("wingflap"):
+				velocityToAdd.y += jumpPower
+					
+		#IDLE_AIR
+		elif currentMoveState == stateMovement.idle_air or currentMoveState == stateMovement.moving_air:
+			
+			if Input.is_action_pressed("ui_right"):
+				velocityToAdd.x += acceleration
+					
+			if Input.is_action_pressed("ui_left"):
+				velocityToAdd.x -= acceleration
+			
+			if Input.is_action_just_pressed("wingflap") and flapCurrent != 0:
+					velocityToAdd.y = 0
+					velocityToAdd.y += flapPower      
+					
+					flapCurrent -= 1
+					 
+		#WALL_CLING
+		elif currentMoveState == stateMovement.wall_cling:
+			#velocity.y = 0
+			velocityToAdd.y = currentClingSlideSpeed
+			pass
+	pass
+		
 #Checks in proccess if states should be changed due to PlayerBody interactions
 func  state_handle():
 	
@@ -196,24 +219,56 @@ func  state_handle():
 	pass
 
 #Sets animation according to state and variables
+#TODO: playerAnimation 
 func animation_handle():
 	
-	match currentMoveState:
-		stateMovement.idle_ground:
-			playerSprite.play("idle")
-			
-		stateMovement.moving_ground:
-			playerSprite.play("run")
-			
-		stateMovement.idle_air, stateMovement.moving_air:
-			playerSprite.play("jump")
-			
-		stateMovement.dash:
-			playerSprite.play("dash")
+	match currentActionState:
+		stateAction.attack:
+			$playerAnimation.play("attack")
 		
-		stateMovement.wall_cling:
-			playerSprite.play("wallCling")
-			
+		stateAction.attack_up:
+			$playerAnimation.play("attackUp")
+		
+		stateAction.neutral:
+			match currentMoveState:
+				
+				stateMovement.idle_ground:
+					#playerSprite.play("idle")
+					$playerAnimation.play("idle")
+					
+				stateMovement.moving_ground:
+					$playerAnimation.play("run")
+					
+				stateMovement.idle_air, stateMovement.moving_air:
+					$playerAnimation.play("jump")
+					
+				stateMovement.dash:
+					$playerAnimation.play("dash")
+				
+				stateMovement.wall_cling:
+					$playerAnimation.play("wallCling")
+					
+				stateMovement.idle_ground:
+					$playerAnimation.play("idle")
+				
+				stateMovement.moving_ground:
+					$playerAnimation.play("run")
+					
+				stateMovement.dash:
+					$playerAnimation.play("slide")
+				
+				stateMovement.idle_air, stateMovement.moving_air:
+					$playerAnimation.play("jump")
+					
+				stateMovement.wall_cling:
+					$playerAnimation.play("wallCling")
+
+	
+	pass
+
+#Method used by AnimationPlayer to reset the state at the end of animation 
+func actionState_neutral():
+	currentActionState = stateAction.neutral
 	pass
 
 #Check cling area
@@ -226,6 +281,33 @@ func check_clingArea(area):
 		pass
 	pass
 	
+
+#Make all these handles use the same method please
+
+#This is supposed to be a generic function, but Godot makes it not work and frankly I can't be bothered looking 
+#up why, so code stays lengthy and silly now, fucking sue me.
+func genericRubberband_handler(varToTest, varToAdd, rubberbandForce, pivotVariable):
+		if varToTest > pivotVariable:
+			varToAdd -= rubberbandForce
+			if varToTest - rubberbandForce < pivotVariable:
+				varToAdd  = -varToTest
+		elif varToTest < pivotVariable:
+			varToAdd  += rubberbandForce
+			if varToTest + rubberbandForce > pivotVariable:
+				varToAdd = -varToTest
+pass
+
+#Wall slide handle
+func clingSlide_handle():
+		if velocity.y > 0:
+			velocityToAdd.y -= gravity/3
+			if velocity.y - gravity/3 < 0:
+				velocityToAdd.y = -velocity.y
+		elif velocity.y < 0:
+			velocityToAdd.y  += gravity/3
+			if velocity.y + gravity/3 > 0:
+				velocityToAdd.y = -velocity.y
+
 #Friction handle
 func friction_handle():
 	if velocity.x > 0:
@@ -261,7 +343,12 @@ func natural_forces_handle(moveState):
 	
 	#Don't add gravity if clinging or grounded
 	if moveState == stateMovement.wall_cling:
-		velocity.y = 0
+		if velocity.y != 0:
+			clingSlide_handle()
+		else:
+			velocity.y = 0
+		pass
+		
 	elif !is_grounded:
 		velocity.y += gravity/7
 		
@@ -282,6 +369,7 @@ func _physics_process(delta):
 	print(currentMoveState)
 	
 	#Animation handle
+	#Play correct animation according to state
 	animation_handle()
 	
 	#Handle rubberbanding of movement
@@ -326,11 +414,13 @@ func _on_BottomArea_body_entered(_area):
 func _on_LeftArea_body_entered(_area):
 	velocity.x = 0
 	velocityToAdd.x = 0
+	velocityDash.x = 0
 	pass 
 	
 func _on_RightArea_body_entered(_area):
 	velocity.x = 0
 	velocityToAdd.x = 0
+	velocityDash.x = 0
 	pass 
 
 

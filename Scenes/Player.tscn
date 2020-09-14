@@ -1,25 +1,36 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=48 format=2]
 
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-idle-00.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-run-05.png" type="Texture" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/PlayerBody.gd" type="Script" id=3]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-idle-01.png" type="Texture" id=4]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-idle-02.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-idle-03.png" type="Texture" id=6]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-jump-00.png" type="Texture" id=7]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-jump-01.png" type="Texture" id=8]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-slide-01.png" type="Texture" id=9]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-jump-03.png" type="Texture" id=10]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-slide-00.png" type="Texture" id=11]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-jump-02.png" type="Texture" id=12]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-fall-00.png" type="Texture" id=13]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-fall-01.png" type="Texture" id=14]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-run-04.png" type="Texture" id=15]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-run-03.png" type="Texture" id=16]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-run-05.png" type="Texture" id=17]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-run-02.png" type="Texture" id=18]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-run-00.png" type="Texture" id=19]
-[ext_resource path="res://Assets/Art/Individual Sprites/adventurer-run-01.png" type="Texture" id=20]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-jump-01.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-run-02.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-idle-01.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-jump-02.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-run-03.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-fall-00.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-slide-00.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-run-04.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-run-00.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-fall-01.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack3-00.png" type="Texture" id=14]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-jump-03.png" type="Texture" id=15]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-slide-01.png" type="Texture" id=16]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack3-01.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-idle-03.png" type="Texture" id=18]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-idle-02.png" type="Texture" id=19]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-jump-00.png" type="Texture" id=20]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-run-01.png" type="Texture" id=21]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-idle-00.png" type="Texture" id=22]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack3-03.png" type="Texture" id=23]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack3-05.png" type="Texture" id=24]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack3-02.png" type="Texture" id=25]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack3-04.png" type="Texture" id=26]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack1-01.png" type="Texture" id=27]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack1-03.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack1-04.png" type="Texture" id=29]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack1-00.png" type="Texture" id=30]
+[ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-attack1-02.png" type="Texture" id=31]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 22.0465, 10.478 )
@@ -38,41 +49,315 @@ extents = Vector2( 4.24716, 29.3836 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 18 ), ExtResource( 16 ), ExtResource( 15 ), ExtResource( 17 ) ],
-"loop": true,
-"name": "run",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 22 ), ExtResource( 6 ), ExtResource( 19 ), ExtResource( 18 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 11 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 14 ), ExtResource( 17 ), ExtResource( 25 ), ExtResource( 23 ), ExtResource( 26 ), ExtResource( 24 ) ],
+"loop": false,
+"name": "attack",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 16 ) ],
 "loop": true,
 "name": "dash",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 12 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 20 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 15 ) ],
 "loop": false,
 "name": "jump",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 21 ), ExtResource( 5 ), ExtResource( 8 ), ExtResource( 11 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "run",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 28 ), ExtResource( 29 ) ],
+"loop": true,
+"name": "attackUp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 13 ) ],
 "loop": true,
 "name": "wallCling",
 "speed": 5.0
 } ]
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 32.0204, 17.0234 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 12.1779, 25.1991 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 23.6866, 9.70935 )
+
+[sub_resource type="Animation" id=10]
+length = 0.75
+tracks/0/type = "value"
+tracks/0/path = NodePath("playerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "attack" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("playerSprite:frame")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 1, 2, 3, 4, 5 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("playerSprite/attackAreas/attackSide:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "actionState_neutral"
+} ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "attackUp"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("playerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "attackUp" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("playerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 4 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "actionState_neutral"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("playerSprite/attackAreas/attackUp:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("playerSprite/attackAreas/attackUp2:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("playerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "dash" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("playerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=13]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("playerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( -0.2, 0, 0.1, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 0, 1, 2, 1 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("playerSprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "idle" ]
+}
+
+[sub_resource type="Animation" id=14]
+length = 0.4
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("playerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "jump" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("playerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+
+[sub_resource type="Animation" id=15]
+length = 0.916667
+loop = true
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("playerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "run" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("playerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+
+[sub_resource type="Animation" id=16]
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("playerSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "wallCling" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("playerSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
 
 [node name="playerNode" type="Node2D"]
 
 [node name="playerBody" type="KinematicBody2D" parent="."]
 collision_mask = 16
 script = ExtResource( 3 )
-
-[node name="testSprite" type="Sprite" parent="playerBody"]
-visible = false
-texture = ExtResource( 2 )
 
 [node name="BodyShape" type="CollisionShape2D" parent="playerBody"]
 position = Vector2( -0.31797, 0.239925 )
@@ -150,13 +435,40 @@ modulate = Color( 0.392157, 0.87451, 0.172549, 1 )
 position = Vector2( 23.3971, 1.89845 )
 shape = SubResource( 5 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="playerBody"]
+[node name="playerSprite" type="AnimatedSprite" parent="playerBody"]
 position = Vector2( -4.93266, -8.33792 )
 scale = Vector2( 2.2027, 2.2027 )
 frames = SubResource( 6 )
-animation = "run"
+animation = "attackUp"
 frame = 4
-playing = true
+
+[node name="attackAreas" type="Area2D" parent="playerBody/playerSprite"]
+position = Vector2( 2.23937, 3.78532 )
+scale = Vector2( 0.453988, 0.453988 )
+
+[node name="attackSide" type="CollisionShape2D" parent="playerBody/playerSprite/attackAreas"]
+modulate = Color( 0.901961, 0.101961, 0.607843, 1 )
+position = Vector2( 33.137, 5.95276 )
+shape = SubResource( 7 )
+
+[node name="attackUp" type="CollisionShape2D" parent="playerBody/playerSprite/attackAreas"]
+modulate = Color( 0.262745, 0.0705882, 0.368627, 1 )
+position = Vector2( 24.4063, -22.2236 )
+shape = SubResource( 8 )
+
+[node name="attackUp2" type="CollisionShape2D" parent="playerBody/playerSprite/attackAreas"]
+modulate = Color( 0.262745, 0.0705882, 0.368627, 1 )
+position = Vector2( 6.54803, -42.2646 )
+shape = SubResource( 9 )
+
+[node name="playerAnimation" type="AnimationPlayer" parent="playerBody"]
+anims/attack = SubResource( 10 )
+anims/attackUp = SubResource( 11 )
+anims/dash = SubResource( 12 )
+anims/idle = SubResource( 13 )
+anims/jump = SubResource( 14 )
+anims/run = SubResource( 15 )
+anims/wallCling = SubResource( 16 )
 [connection signal="body_entered" from="playerBody/TopArea" to="playerBody" method="_on_TopArea_body_entered"]
 [connection signal="body_entered" from="playerBody/BottomArea" to="playerBody" method="_on_BottomArea_body_entered"]
 [connection signal="body_exited" from="playerBody/BottomArea" to="playerBody" method="_on_BottomArea_body_exited"]
