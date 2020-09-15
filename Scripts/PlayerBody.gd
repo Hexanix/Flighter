@@ -89,6 +89,7 @@ func areaClingHandle():
 
 #System functions
 func _ready():
+	
 	#Movement units are multiplied by 1000 to use with delta#
 	acceleration *= speedHorizontal
 	frict *= speedHorizontal
@@ -96,7 +97,6 @@ func _ready():
 	dashPower *= speedHorizontal
 	dashSlowdown *= speedHorizontal
 	
-	#jumpPower *= gravity/1.4
 	jumpPower *= -speedVertical
 	
 	
