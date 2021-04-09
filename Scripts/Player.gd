@@ -9,44 +9,44 @@ var velocity_HorLimit = Vector2(0, 0)
 var velocity_VerLimit = Vector2(0, 0)
 
 #Character Variables
-export var acceleration = 1
-export var dashPower = 25
-export var dashSlowdown = 2
+export var acceleration : float = 1
+export var dashPower : float = 25
+export var dashSlowdown : float = 2
 
-export var jumpPower = 1.4
-export var flapPower = 1
+export var jumpPower : float =  1.4
+export var flapPower : float = 1
 
-var speedHorizontal = 5000
-var speedVertical = 100000
+var speedHorizontal : int = 5000
+var speedVertical : int = 100000
 
-var currentClingSlideSpeed = 0
+var currentClingSlideSpeed : float = 0
 
 #Flap Count and Max Flax Count
-var flapMax = 2
-var flapCurrent = flapMax
+var flapMax : int = 2
+var flapCurrent : int = flapMax
 
 #Bools
-onready var is_grounded = false
+onready var is_grounded : bool = false
 
 #World Variables
-export var frict = 0.6
-export var gravity = 2.3
+export var frict : float= 0.6
+export var gravity : float = 2.3
 
 #Sprites
-onready var playerSprite = get_node("playerBody/playerSprite")
+onready var playerSprite : Node = get_node("playerBody/playerSprite")
 
 #Areas
-onready var areaLeft = get_node("playerBody/LeftArea")
-onready var areaRight = get_node("playerBody/RightArea")
-onready var areaTop = get_node("playerBody/TopArea")
-onready var areaBottom = get_node("playerBody/BottomArea")
+onready var areaLeft : Node = get_node("playerBody/LeftArea")
+onready var areaRight : Node = get_node("playerBody/RightArea")
+onready var areaTop : Node = get_node("playerBody/TopArea")
+onready var areaBottom : Node = get_node("playerBody/BottomArea")
 
-onready var areaClingLeft = get_node("playerBody/LeftClingArea")
-onready var areaClingRight = get_node("playerBody/RightClingArea")
+onready var areaClingLeft : Node = get_node("playerBody/LeftClingArea")
+onready var areaClingRight : Node = get_node("playerBody/RightClingArea")
 
 #Singletons
-onready var groupsTerrain = get_node("/root/groupsTerrainType")
-onready var groupsTerrainArea = get_node("/root/groupsTerrainArea")
+onready var groupsTerrain : Node = get_node("/root/groupsTerrainType")
+onready var groupsTerrainArea : Node = get_node("/root/groupsTerrainArea")
 
 #States of the player, both variants#
 enum stateMovement{ 
@@ -54,22 +54,22 @@ enum stateMovement{
 	idle_ground, 
 	moving_air, 
 	moving_ground, 
-	wall_cling
 	dash
 }
 
 enum stateAction{
 	neutral,
 	attack,
+	wall_cling
 	attack_up,
 	parry
 }
 
-export var currentMoveState = stateMovement.idle_ground
-export var currentActionState = stateAction.neutral
+export var currentMoveState : int = stateMovement.idle_ground
+export var currentActionState : int = stateAction.neutral
 
 #Function which sets the position of Area2D side to the edge of PlayerBody 
-func areaClingHandle():
+func areaClingHandle() -> void:
 	var playerBody = get_node("playerBody/BodyShape")
 	
 	if Input.is_action_pressed("ui_right"):
@@ -86,9 +86,8 @@ func areaClingHandle():
 		areaClingLeft.position.x = playerBody.position.x 
 		pass
 
-
 #System functions
-func _ready():
+func _ready()  -> void:
 	
 	#Movement units are multiplied by 1000 to use with delta#
 	acceleration *= speedHorizontal
@@ -119,10 +118,16 @@ func _ready():
 	pass
 
 #Custom functions
-func input_handle():
+func input_handle() -> void:
 	
 	#HANDLE AREAS 
 	areaClingHandle()
+	
+	#WALL_CLING Action
+	if currentActionState == stateAction.wall_cling:
+		#velocity.y = 0
+		velocityToAdd.y += currentClingSlideSpeed
+		pass
 	
 	#Check if action state is neutral branch
 	if currentActionState != stateAction.parry and currentActionState != stateAction.attack_up:
@@ -156,7 +161,7 @@ func input_handle():
 				currentActionState = stateAction.attack
 			pass
 	
-		#IDLE_GROUND
+		#GROUND
 		if currentMoveState == stateMovement.idle_ground or currentMoveState == stateMovement.moving_ground:
 			if Input.is_action_pressed("ui_right"):
 				velocityToAdd.x += acceleration
@@ -167,8 +172,11 @@ func input_handle():
 			if Input.is_action_just_pressed("wingflap"):
 				velocityToAdd.y += jumpPower
 					
-		#IDLE_AIR
+		#AIR
 		elif currentMoveState == stateMovement.idle_air or currentMoveState == stateMovement.moving_air:
+			
+			#Gravitational Pull
+			velocityToAdd.y += gravity/7
 			
 			if Input.is_action_pressed("ui_right"):
 				velocityToAdd.x += acceleration
@@ -182,11 +190,6 @@ func input_handle():
 					
 					flapCurrent -= 1
 					 
-		#WALL_CLING
-		elif currentMoveState == stateMovement.wall_cling:
-			#velocity.y = 0
-			velocityToAdd.y = currentClingSlideSpeed
-			pass
 	pass
 		
 #Checks in proccess if states should be changed due to PlayerBody interactions
@@ -208,7 +211,6 @@ func  state_handle():
 			currentMoveState = stateMovement.moving_air
 		else:
 			currentMoveState = stateMovement.idle_air
-			
 		pass
 		
 		
@@ -219,48 +221,47 @@ func  state_handle():
 	pass
 
 #Sets animation according to state and variables
-#TODO: playerAnimation 
+#TODO: playerBody/playerAnimation 
 func animation_handle():
 	
 	match currentActionState:
 		stateAction.attack:
-			$playerAnimation.play("attack")
+			$playerBody/playerAnimation.play("attack")
 		
 		stateAction.attack_up:
-			$playerAnimation.play("attackUp")
+			$playerBody/playerAnimation.play("attackUp")
+			
+		stateAction.wall_cling:		
+			$playerBody/playerAnimation.play("wallCling")
+			
 		
 		stateAction.neutral:
 			match currentMoveState:
 				
 				stateMovement.idle_ground:
-					$playerAnimation.play("idle")
+					$playerBody/playerAnimation.play("idle")
 					
 				stateMovement.moving_ground:
-					$playerAnimation.play("run")
+					$playerBody/playerAnimation.play("run")
 					
 				stateMovement.idle_air, stateMovement.moving_air:
-					$playerAnimation.play("jump")
+					$playerBody/playerAnimation.play("jump")
 					
 				stateMovement.dash:
-					$playerAnimation.play("dash")
-				
-				stateMovement.wall_cling:
-					$playerAnimation.play("wallCling")
-					
+					$playerBody/playerAnimation.play("dash")
+
 				stateMovement.idle_ground:
-					$playerAnimation.play("idle")
+					$playerBody/playerAnimation.play("idle")
 				
 				stateMovement.moving_ground:
-					$playerAnimation.play("run")
+					$playerBody/playerAnimation.play("run")
 					
 				stateMovement.dash:
-					$playerAnimation.play("slide")
+					$playerBody/playerAnimation.play("slide")
 				
 				stateMovement.idle_air, stateMovement.moving_air:
-					$playerAnimation.play("jump")
+					$playerBody/playerAnimation.play("jump")
 					
-				stateMovement.wall_cling:
-					$playerAnimation.play("wallCling")
 
 	
 	pass
@@ -272,10 +273,23 @@ func actionState_neutral():
 
 #Check cling area
 func check_clingArea(area):
+	#Quick hack
+	if currentActionState == stateAction.wall_cling:
+		currentActionState = stateAction.neutral
+	
 	if area.get_overlapping_areas().size() > 0:
 		if area.get_overlapping_areas()[0].is_in_group(groupsTerrainArea.WALL_CLING):
-			currentMoveState = stateMovement.wall_cling
-			currentClingSlideSpeed =  area.get_overlapping_areas()[0].slipFactor * gravity
+			
+			currentActionState = stateAction.wall_cling
+			var slipFactor = area.get_overlapping_areas()[0].slipFactor
+			
+			#Experimental!
+			if velocity.y > slipFactor:
+				currentClingSlideSpeed = slipFactor/-3 * gravity
+			elif velocity.y < slipFactor:
+				currentClingSlideSpeed = slipFactor/3 *gravity
+			else:
+				currentClingSlideSpeed =  slipFactor * gravity
 			pass
 		pass
 	pass
@@ -295,17 +309,6 @@ func genericRubberband_handler(varToTest, varToAdd, rubberbandForce, pivotVariab
 			if varToTest + rubberbandForce > pivotVariable:
 				varToAdd = -varToTest
 pass
-
-#Wall slide handle
-func clingSlide_handle():
-		if velocity.y > 0:
-			velocityToAdd.y -= gravity/3
-			if velocity.y - gravity/3 < 0:
-				velocityToAdd.y = -velocity.y
-		elif velocity.y < 0:
-			velocityToAdd.y  += gravity/3
-			if velocity.y + gravity/3 > 0:
-				velocityToAdd.y = -velocity.y
 
 #Friction handle
 func friction_handle():
@@ -338,18 +341,7 @@ func dash_handle():
 #	- Friction
 #	- Dash slowdown - NOT WORKING IN THIS FUNCTION
 #	- Gravity
-func natural_forces_handle(moveState):
-	
-	#Don't add gravity if clinging or grounded
-	if moveState == stateMovement.wall_cling:
-		if velocity.y != 0:
-			clingSlide_handle()
-		else:
-			velocity.y = 0
-		pass
-		
-	elif !is_grounded:
-		velocity.y += gravity/7
+func natural_forces_handle(moveState: int) -> void:
 		
 	if moveState == stateMovement.moving_ground:
 		friction_handle()
@@ -365,7 +357,9 @@ func _physics_process(delta):
 	
 	#State handler
 	state_handle()
-	print(currentMoveState)
+	
+	if currentMoveState == 4:
+		print(velocityToAdd.y*1.0)
 	
 	#Animation handle
 	#Play correct animation according to state

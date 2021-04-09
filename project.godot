@@ -8,9 +8,38 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "Action",
+"language": "GDScript",
+"path": "res://Scripts/Characters/PlayerActions/Action.gd"
+}, {
+"base": "Node",
+"class": "AttackNormalAction",
+"language": "GDScript",
+"path": "res://Scripts/Characters/PlayerActions/AttackNormal.gd"
+}, {
+"base": "Node",
+"class": "AttackUpAction",
+"language": "GDScript",
+"path": "res://Scripts/Characters/PlayerActions/AttackUp.gd"
+}, {
+"base": "Node",
+"class": "NeutralAction",
+"language": "GDScript",
+"path": "res://Scripts/Characters/PlayerActions/Neutral.gd"
+}, {
+"base": "Node",
+"class": "ParryAction",
+"language": "GDScript",
+"path": "res://Scripts/Characters/PlayerActions/Parry.gd"
+} ]
 _global_script_class_icons={
-
+"Action": "",
+"AttackNormalAction": "",
+"AttackUpAction": "",
+"NeutralAction": "",
+"ParryAction": ""
 }
 
 [application]
