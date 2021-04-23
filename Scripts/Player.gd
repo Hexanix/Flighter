@@ -19,7 +19,7 @@ export var flapPower : float = 1
 var speedHorizontal : int = 5000
 var speedVertical : int = 100000
 
-var currentClingSlideSpeed : float = 0
+var currentClingSlideFactor : float = 0
 
 #Flap Count and Max Flax Count
 var flapMax : int = 2
@@ -41,8 +41,7 @@ onready var areaRight : Node = get_node("playerBody/RightArea")
 onready var areaTop : Node = get_node("playerBody/TopArea")
 onready var areaBottom : Node = get_node("playerBody/BottomArea")
 
-onready var areaClingLeft : Node = get_node("playerBody/LeftClingArea")
-onready var areaClingRight : Node = get_node("playerBody/RightClingArea")
+onready var clingArea : Node = get_node("playerBody/ClingArea")
 
 #Singletons
 onready var groupsTerrain : Node = get_node("/root/groupsTerrainType")
@@ -73,18 +72,34 @@ func areaClingHandle() -> void:
 	var playerBody = get_node("playerBody/BodyShape")
 	
 	if Input.is_action_pressed("ui_right"):
-		areaClingRight.position.x = playerBody.position.x + 15
+		clingArea.position.x = playerBody.position.x + 30
 		pass
 	elif Input.is_action_just_released("ui_right"):
-		areaClingRight.position.x = playerBody.position.x 
+		clingArea.position.x = playerBody.position.x 
 		pass
 			
 	if Input.is_action_just_pressed("ui_left"):
-		areaClingLeft.position.x = playerBody.position.x - 15
+		clingArea.position.x = playerBody.position.x - 30
 		pass
 	elif Input.is_action_just_released("ui_left"):
-		areaClingLeft.position.x = playerBody.position.x 
+		clingArea.position.x = playerBody.position.x 
 		pass
+
+#Make all these handles use the same method please
+
+#This is supposed to be a generic function, but Godot makes it not work and frankly I can't be bothered looking 
+#up why, so code stays lengthy and silly now, fucking sue me.
+func genericRubberband_handler(varToTest, varToAdd, rubberbandForce, pivotVariable):
+		if varToTest > pivotVariable:
+			varToAdd -= rubberbandForce
+			if varToTest - rubberbandForce < pivotVariable:
+				varToAdd  = -varToTest
+		elif varToTest < pivotVariable:
+			varToAdd  += rubberbandForce
+			if varToTest + rubberbandForce > pivotVariable:
+				varToAdd = -varToTest
+pass
+
 
 #System functions
 func _ready()  -> void:
@@ -124,10 +139,7 @@ func input_handle() -> void:
 	areaClingHandle()
 	
 	#WALL_CLING Action
-	if currentActionState == stateAction.wall_cling:
-		#velocity.y = 0
-		velocityToAdd.y += currentClingSlideSpeed
-		pass
+	#print(currentActionState)
 	
 	#Check if action state is neutral branch
 	if currentActionState != stateAction.parry and currentActionState != stateAction.attack_up:
@@ -176,7 +188,7 @@ func input_handle() -> void:
 		elif currentMoveState == stateMovement.idle_air or currentMoveState == stateMovement.moving_air:
 			
 			#Gravitational Pull
-			velocityToAdd.y += gravity/7
+			#velocityToAdd.y += gravity/7
 			
 			if Input.is_action_pressed("ui_right"):
 				velocityToAdd.x += acceleration
@@ -214,9 +226,6 @@ func  state_handle():
 		pass
 		
 		
-	#Check if Cling Areas are in effect
-	check_clingArea(areaClingRight)
-	check_clingArea(areaClingLeft)
 		
 	pass
 
@@ -266,49 +275,34 @@ func animation_handle():
 	
 	pass
 
-#Method used by AnimationPlayer to reset the state at the end of animation 
+#Method used by AnimationPlayer to reset the state at the end of animation - ???
 func actionState_neutral():
 	currentActionState = stateAction.neutral
 	pass
 
-#Check cling area
-func check_clingArea(area):
-	#Quick hack
-	if currentActionState == stateAction.wall_cling:
-		currentActionState = stateAction.neutral
+#Gravity handle
+func gravity_handle(factor):
+	velocityToAdd.y += gravity/factor
 	
-	if area.get_overlapping_areas().size() > 0:
-		if area.get_overlapping_areas()[0].is_in_group(groupsTerrainArea.WALL_CLING):
-			
-			currentActionState = stateAction.wall_cling
-			var slipFactor = area.get_overlapping_areas()[0].slipFactor
-			
-			#Experimental!
-			if velocity.y > slipFactor:
-				currentClingSlideSpeed = slipFactor/-3 * gravity
-			elif velocity.y < slipFactor:
-				currentClingSlideSpeed = slipFactor/3 *gravity
-			else:
-				currentClingSlideSpeed =  slipFactor * gravity
-			pass
-		pass
 	pass
+
+#Cling Slide handle
+#TODO!
+func clingSlide_handle(slipFactor):
 	
+	print(velocity.y, " vel |", velocityToAdd.y, " velAdd |", (gravity*slipFactor)/3, " step |", gravity*slipFactor, " pivot")
+	#genericRubberband_handler(velocity.y, velocityToAdd.y, 5000, gravity*slipFactor)
+	
+	if velocity.y > gravity*slipFactor:
+		velocityToAdd.y -= (gravity*slipFactor)/3
 
-#Make all these handles use the same method please
+	elif velocity.y < gravity*slipFactor:
+		velocityToAdd.y  += (gravity*slipFactor)/3
 
-#This is supposed to be a generic function, but Godot makes it not work and frankly I can't be bothered looking 
-#up why, so code stays lengthy and silly now, fucking sue me.
-func genericRubberband_handler(varToTest, varToAdd, rubberbandForce, pivotVariable):
-		if varToTest > pivotVariable:
-			varToAdd -= rubberbandForce
-			if varToTest - rubberbandForce < pivotVariable:
-				varToAdd  = -varToTest
-		elif varToTest < pivotVariable:
-			varToAdd  += rubberbandForce
-			if varToTest + rubberbandForce > pivotVariable:
-				varToAdd = -varToTest
-pass
+	
+	pass
+
+#Check cling area
 
 #Friction handle
 func friction_handle():
@@ -341,10 +335,19 @@ func dash_handle():
 #	- Friction
 #	- Dash slowdown - NOT WORKING IN THIS FUNCTION
 #	- Gravity
-func natural_forces_handle(moveState: int) -> void:
+func natural_forces_handle(moveState: int, actionState: int) -> void:
+	
+	#Add initial gravity
+	gravity_handle(7)
+	
+	#Downpull force handle
+	if actionState == stateAction.wall_cling:
+		clingSlide_handle(currentClingSlideFactor)
 		
+	
 	if moveState == stateMovement.moving_ground:
 		friction_handle()
+
 	#If correct state, check rubberband force
 	
 	
@@ -358,15 +361,12 @@ func _physics_process(delta):
 	#State handler
 	state_handle()
 	
-	if currentMoveState == 4:
-		print(velocityToAdd.y*1.0)
-	
 	#Animation handle
 	#Play correct animation according to state
 	animation_handle()
 	
 	#Handle rubberbanding of movement
-	natural_forces_handle(currentMoveState)
+	natural_forces_handle(currentMoveState, currentActionState)
 
 	#Regulate velocity
 	velocity.x += velocityToAdd.x
@@ -398,8 +398,6 @@ func _on_BottomArea_body_entered(_area):
 	is_grounded = true
 	flapCurrent = flapMax
 	
-	print("aa")
-	
 	velocity.y = 0
 	velocityToAdd.y = 0
 	pass # Replace with function body.
@@ -417,12 +415,25 @@ func _on_RightArea_body_entered(_area):
 	pass 
 
 
-
 func _on_BottomArea_body_exited(_area):
 	is_grounded = false
 	#velocity.y = 0
 	#velocityToAdd.y = 0
 	
-	print("bb")
 	
+	pass # Replace with function body.
+
+
+
+
+func _on_ClingArea_area_entered(area):
+	currentActionState = stateAction.wall_cling
+	currentClingSlideFactor = area.slipFactor
+	
+	pass # Replace with function body.
+
+
+func _on_ClingArea_area_exited(area):
+	currentActionState = stateAction.neutral
+	currentClingSlideFactor = 0
 	pass # Replace with function body.
