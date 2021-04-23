@@ -36,24 +36,23 @@
 extents = Vector2( 22.0465, 10.478 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 27.1192, 5.06359 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 5.50904, 27.2336 )
-
-[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 21.8305, 4.5 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 4.24716, 29.3836 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 5.50904, 27.2336 )
+
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 22 ), ExtResource( 6 ), ExtResource( 19 ), ExtResource( 18 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
+<<<<<<< HEAD
+=======
 "frames": [ ExtResource( 10 ), ExtResource( 16 ) ],
 "loop": true,
 "name": "dash",
@@ -64,10 +63,37 @@ animations = [ {
 "name": "attack",
 "speed": 10.0
 }, {
+<<<<<<< HEAD
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 "frames": [ ExtResource( 20 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 15 ) ],
 "loop": false,
 "name": "jump",
 "speed": 20.0
+}, {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
+"frames": [ ExtResource( 30 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 28 ), ExtResource( 29 ) ],
+"loop": true,
+"name": "attackUp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 21 ), ExtResource( 5 ), ExtResource( 8 ), ExtResource( 11 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "run",
+"speed": 5.0
+}, {
+>>>>>>> parent of 86f9f74 (Move To Action change)
+"frames": [ ExtResource( 9 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "wallCling",
+"speed": 5.0
+<<<<<<< HEAD
+<<<<<<< HEAD
 }, {
 "frames": [ ExtResource( 30 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 28 ), ExtResource( 29 ) ],
 "loop": true,
@@ -79,22 +105,31 @@ animations = [ {
 "name": "run",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 16 ) ],
 "loop": true,
-"name": "wallCling",
+"name": "dash",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 17 ), ExtResource( 25 ), ExtResource( 23 ), ExtResource( 26 ), ExtResource( 24 ) ],
+"loop": false,
+"name": "attack",
+"speed": 10.0
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 } ]
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 32.0204, 17.0234 )
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 12.1779, 25.1991 )
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 23.6866, 9.70935 )
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 length = 0.75
 tracks/0/type = "value"
 tracks/0/path = NodePath("playerSprite:animation")
@@ -147,7 +182,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=10]
 resource_name = "attackUp"
 length = 0.6
 tracks/0/type = "value"
@@ -213,7 +248,7 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=11]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -241,7 +276,7 @@ tracks/1/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=12]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("playerSprite:frame")
@@ -268,7 +303,7 @@ tracks/1/keys = {
 "values": [ "idle" ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=13]
 length = 0.4
 step = 0.0166667
 tracks/0/type = "value"
@@ -296,7 +331,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=14]
 length = 0.916667
 loop = true
 step = 0.0166667
@@ -325,7 +360,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=15]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -368,41 +403,6 @@ position = Vector2( -0.31797, 0.239925 )
 scale = Vector2( 1, 3.07692 )
 shape = SubResource( 1 )
 
-[node name="RightClingArea" type="Area2D" parent="playerBody"]
-collision_layer = 2
-collision_mask = 2147483680
-
-[node name="RightShape" type="CollisionShape2D" parent="playerBody/RightClingArea"]
-modulate = Color( 0.890196, 0.176471, 0.121569, 1 )
-position = Vector2( 5.09913, -1.20254 )
-rotation = 4.71238
-shape = SubResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="playerBody/RightClingArea/RightShape"]
-position = Vector2( -0.360418, -0.578659 )
-scale = Vector2( 0.513864, 0.154782 )
-texture = ExtResource( 2 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="LeftClingArea" type="Area2D" parent="playerBody"]
-collision_layer = 2
-collision_mask = 32
-
-[node name="LeftShape" type="CollisionShape2D" parent="playerBody/LeftClingArea"]
-modulate = Color( 0.890196, 0.176471, 0.121569, 1 )
-position = Vector2( -5.56532, -1.20616 )
-shape = SubResource( 3 )
-
-[node name="Sprite" type="Sprite" parent="playerBody/LeftClingArea/LeftShape"]
-position = Vector2( 0.176773, -2.65837e-05 )
-scale = Vector2( 0.143738, 0.524913 )
-texture = ExtResource( 2 )
-__meta__ = {
-"_edit_lock_": true
-}
-
 [node name="TopArea" type="Area2D" parent="playerBody"]
 collision_layer = 2
 collision_mask = 16
@@ -410,7 +410,7 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerBody/TopArea"]
 modulate = Color( 0.47451, 0.921569, 0.137255, 1 )
 position = Vector2( -0.659659, -30.8101 )
-shape = SubResource( 4 )
+shape = SubResource( 2 )
 
 [node name="BottomArea" type="Area2D" parent="playerBody"]
 collision_layer = 2
@@ -419,7 +419,7 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerBody/BottomArea"]
 modulate = Color( 0.47451, 0.921569, 0.137255, 1 )
 position = Vector2( -0.498777, 28.1393 )
-shape = SubResource( 4 )
+shape = SubResource( 2 )
 
 [node name="LeftArea" type="Area2D" parent="playerBody"]
 collision_layer = 2
@@ -428,7 +428,7 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerBody/LeftArea"]
 modulate = Color( 0.392157, 0.87451, 0.172549, 1 )
 position = Vector2( -25.1776, 1.14427 )
-shape = SubResource( 5 )
+shape = SubResource( 3 )
 
 [node name="RightArea" type="Area2D" parent="playerBody"]
 collision_layer = 2
@@ -437,14 +437,43 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerBody/RightArea"]
 modulate = Color( 0.392157, 0.87451, 0.172549, 1 )
 position = Vector2( 23.3971, 1.89845 )
-shape = SubResource( 5 )
+shape = SubResource( 3 )
+
+[node name="ClingArea" type="Area2D" parent="playerBody"]
+collision_layer = 2
+collision_mask = 32
+
+[node name="LeftShape" type="CollisionShape2D" parent="playerBody/ClingArea"]
+modulate = Color( 0.890196, 0.176471, 0.121569, 1 )
+position = Vector2( -0.138043, -0.262289 )
+shape = SubResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="playerBody/ClingArea/LeftShape"]
+position = Vector2( 0.176773, -2.65837e-05 )
+scale = Vector2( 0.143738, 0.524913 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="playerSprite" type="AnimatedSprite" parent="playerBody"]
 position = Vector2( -4.93266, -8.33792 )
 scale = Vector2( 2.2027, 2.2027 )
+<<<<<<< HEAD
+<<<<<<< HEAD
+frames = SubResource( 5 )
+animation = "attackUp"
+frame = 4
+=======
 frames = SubResource( 6 )
 animation = "attack"
 frame = 1
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+frames = SubResource( 6 )
+animation = "attack"
+frame = 1
+>>>>>>> parent of 86f9f74 (Move To Action change)
 
 [node name="attackAreas" type="Area2D" parent="playerBody/playerSprite"]
 position = Vector2( 2.23937, 3.78532 )
@@ -453,18 +482,40 @@ scale = Vector2( 0.453988, 0.453988 )
 [node name="attackSide" type="CollisionShape2D" parent="playerBody/playerSprite/attackAreas"]
 modulate = Color( 0.901961, 0.101961, 0.607843, 1 )
 position = Vector2( 33.137, 5.95276 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="attackUp" type="CollisionShape2D" parent="playerBody/playerSprite/attackAreas"]
 modulate = Color( 0.262745, 0.0705882, 0.368627, 1 )
 position = Vector2( 24.4063, -22.2236 )
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="attackUp2" type="CollisionShape2D" parent="playerBody/playerSprite/attackAreas"]
 modulate = Color( 0.262745, 0.0705882, 0.368627, 1 )
 position = Vector2( 6.54803, -42.2646 )
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+[node name="playerAnimation" type="AnimationPlayer" parent="playerBody"]
+anims/attack = SubResource( 9 )
+anims/attackUp = SubResource( 10 )
+anims/dash = SubResource( 11 )
+anims/idle = SubResource( 12 )
+anims/jump = SubResource( 13 )
+anims/run = SubResource( 14 )
+anims/wallCling = SubResource( 15 )
+[connection signal="body_entered" from="playerBody/TopArea" to="." method="_on_TopArea_body_entered"]
+[connection signal="body_entered" from="playerBody/BottomArea" to="." method="_on_BottomArea_body_entered"]
+[connection signal="body_exited" from="playerBody/BottomArea" to="." method="_on_BottomArea_body_exited"]
+[connection signal="body_entered" from="playerBody/LeftArea" to="." method="_on_LeftArea_body_entered"]
+[connection signal="body_entered" from="playerBody/RightArea" to="." method="_on_RightArea_body_entered"]
+[connection signal="area_entered" from="playerBody/ClingArea" to="." method="_on_ClingArea_area_entered"]
+[connection signal="area_exited" from="playerBody/ClingArea" to="." method="_on_ClingArea_area_exited"]
+[connection signal="body_entered" from="playerBody/ClingArea" to="." method="_on_ClingArea_body_entered"]
+[connection signal="body_exited" from="playerBody/ClingArea" to="." method="_on_ClingArea_body_exited"]
+=======
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 [node name="playerAnimation" type="AnimationPlayer" parent="."]
 anims/attack = SubResource( 10 )
 anims/attackUp = SubResource( 11 )
@@ -478,3 +529,7 @@ anims/wallCling = SubResource( 16 )
 [connection signal="body_exited" from="playerBody/BottomArea" to="playerBody" method="_on_BottomArea_body_exited"]
 [connection signal="body_entered" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_body_entered"]
 [connection signal="body_entered" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_body_entered"]
+<<<<<<< HEAD
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)

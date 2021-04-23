@@ -19,7 +19,15 @@ export var flapPower = 1
 var speedHorizontal = 5000
 var speedVertical = 100000
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+var currentClingSlideFactor : float = 0
+=======
 var currentClingSlideSpeed = 0
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+var currentClingSlideSpeed = 0
+>>>>>>> parent of 86f9f74 (Move To Action change)
 
 #Flap Count and Max Flax Count
 var flapMax = 2
@@ -41,8 +49,17 @@ onready var areaRight = get_node("playerBody/RightArea")
 onready var areaTop = get_node("playerBody/TopArea")
 onready var areaBottom = get_node("playerBody/BottomArea")
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+onready var clingArea : Node = get_node("playerBody/ClingArea")
+=======
 onready var areaClingLeft = get_node("playerBody/LeftClingArea")
 onready var areaClingRight = get_node("playerBody/RightClingArea")
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+onready var areaClingLeft = get_node("playerBody/LeftClingArea")
+onready var areaClingRight = get_node("playerBody/RightClingArea")
+>>>>>>> parent of 86f9f74 (Move To Action change)
 
 #Singletons
 onready var groupsTerrain = get_node("/root/groupsTerrainType")
@@ -73,19 +90,40 @@ func areaClingHandle():
 	var playerBody = get_node("playerBody/BodyShape")
 	
 	if Input.is_action_pressed("ui_right"):
-		areaClingRight.position.x = playerBody.position.x + 15
+		clingArea.position.x = playerBody.position.x + 30
 		pass
 	elif Input.is_action_just_released("ui_right"):
-		areaClingRight.position.x = playerBody.position.x 
+		clingArea.position.x = playerBody.position.x 
 		pass
 			
 	if Input.is_action_just_pressed("ui_left"):
-		areaClingLeft.position.x = playerBody.position.x - 15
+		clingArea.position.x = playerBody.position.x - 30
 		pass
 	elif Input.is_action_just_released("ui_left"):
-		areaClingLeft.position.x = playerBody.position.x 
+		clingArea.position.x = playerBody.position.x 
 		pass
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+#Make all these handles use the same method please
+
+#This is supposed to be a generic function, but Godot makes it not work and frankly I can't be bothered looking 
+#up why, so code stays lengthy and silly now, fucking sue me.
+func genericRubberband_handler(varToTest, varToAdd, rubberbandForce, pivotVariable):
+		if varToTest > pivotVariable:
+			varToAdd -= rubberbandForce
+			if varToTest - rubberbandForce < pivotVariable:
+				varToAdd  = -varToTest
+		elif varToTest < pivotVariable:
+			varToAdd  += rubberbandForce
+			if varToTest + rubberbandForce > pivotVariable:
+				varToAdd = -varToTest
+pass
+
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 
 #System functions
 func _ready():
@@ -124,6 +162,15 @@ func input_handle():
 	#HANDLE AREAS 
 	areaClingHandle()
 	
+<<<<<<< HEAD
+<<<<<<< HEAD
+	#WALL_CLING Action
+	#print(currentActionState)
+	
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 	#Check if action state is neutral branch
 	if currentActionState != stateAction.parry and currentActionState != stateAction.attack_up:
 		
@@ -170,6 +217,15 @@ func input_handle():
 		#IDLE_AIR
 		elif currentMoveState == stateMovement.idle_air or currentMoveState == stateMovement.moving_air:
 			
+<<<<<<< HEAD
+<<<<<<< HEAD
+			#Gravitational Pull
+			#velocityToAdd.y += gravity/7
+			
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 			if Input.is_action_pressed("ui_right"):
 				velocityToAdd.x += acceleration
 					
@@ -212,9 +268,6 @@ func  state_handle():
 		pass
 		
 		
-	#Check if Cling Areas are in effect
-	check_clingArea(areaClingRight)
-	check_clingArea(areaClingLeft)
 		
 	pass
 
@@ -265,11 +318,17 @@ func animation_handle():
 	
 	pass
 
-#Method used by AnimationPlayer to reset the state at the end of animation 
+#Method used by AnimationPlayer to reset the state at the end of animation - ???
 func actionState_neutral():
 	currentActionState = stateAction.neutral
 	pass
 
+<<<<<<< HEAD
+#Gravity handle
+func gravity_handle(factor):
+	velocityToAdd.y += gravity/factor
+	
+=======
 #Check cling area
 func check_clingArea(area):
 	if area.get_overlapping_areas().size() > 0:
@@ -278,23 +337,37 @@ func check_clingArea(area):
 			currentClingSlideSpeed =  area.get_overlapping_areas()[0].slipFactor * gravity
 			pass
 		pass
+>>>>>>> parent of 86f9f74 (Move To Action change)
 	pass
+
+#Cling Slide handle
+#TODO!
+func clingSlide_handle(slipFactor):
 	
+	print(velocity.y, " vel |", velocityToAdd.y, " velAdd |", (gravity*slipFactor)/3, " step |", gravity*slipFactor, " pivot")
+	#genericRubberband_handler(velocity.y, velocityToAdd.y, 5000, gravity*slipFactor)
+	
+	if velocity.y > gravity*slipFactor:
+		velocityToAdd.y -= (gravity*slipFactor)/3
 
-#Make all these handles use the same method please
+	elif velocity.y < gravity*slipFactor:
+		velocityToAdd.y  += (gravity*slipFactor)/3
 
-#This is supposed to be a generic function, but Godot makes it not work and frankly I can't be bothered looking 
-#up why, so code stays lengthy and silly now, fucking sue me.
-func genericRubberband_handler(varToTest, varToAdd, rubberbandForce, pivotVariable):
-		if varToTest > pivotVariable:
-			varToAdd -= rubberbandForce
-			if varToTest - rubberbandForce < pivotVariable:
-				varToAdd  = -varToTest
-		elif varToTest < pivotVariable:
-			varToAdd  += rubberbandForce
-			if varToTest + rubberbandForce > pivotVariable:
-				varToAdd = -varToTest
-pass
+	
+	pass
+
+#Check cling area
+
+#Wall slide handle
+func clingSlide_handle():
+		if velocity.y > 0:
+			velocityToAdd.y -= gravity/3
+			if velocity.y - gravity/3 < 0:
+				velocityToAdd.y = -velocity.y
+		elif velocity.y < 0:
+			velocityToAdd.y  += gravity/3
+			if velocity.y + gravity/3 > 0:
+				velocityToAdd.y = -velocity.y
 
 #Wall slide handle
 func clingSlide_handle():
@@ -338,6 +411,19 @@ func dash_handle():
 #	- Friction
 #	- Dash slowdown - NOT WORKING IN THIS FUNCTION
 #	- Gravity
+<<<<<<< HEAD
+<<<<<<< HEAD
+func natural_forces_handle(moveState: int, actionState: int) -> void:
+	
+	#Add initial gravity
+	gravity_handle(7)
+	
+	#Downpull force handle
+	if actionState == stateAction.wall_cling:
+		clingSlide_handle(currentClingSlideFactor)
+=======
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 func natural_forces_handle(moveState):
 	
 	#Don't add gravity if clinging or grounded
@@ -350,9 +436,15 @@ func natural_forces_handle(moveState):
 		
 	elif !is_grounded:
 		velocity.y += gravity/7
+<<<<<<< HEAD
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 		
+	
 	if moveState == stateMovement.moving_ground:
 		friction_handle()
+
 	#If correct state, check rubberband force
 	
 	
@@ -365,14 +457,21 @@ func _physics_process(delta):
 	
 	#State handler
 	state_handle()
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 	print(currentMoveState)
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
+	print(currentMoveState)
+>>>>>>> parent of 86f9f74 (Move To Action change)
 	
 	#Animation handle
 	#Play correct animation according to state
 	animation_handle()
 	
 	#Handle rubberbanding of movement
-	natural_forces_handle(currentMoveState)
+	natural_forces_handle(currentMoveState, currentActionState)
 
 	#Regulate velocity
 	velocity.x += velocityToAdd.x
@@ -404,8 +503,6 @@ func _on_BottomArea_body_entered(_area):
 	is_grounded = true
 	flapCurrent = flapMax
 	
-	print("aa")
-	
 	velocity.y = 0
 	velocityToAdd.y = 0
 	pass # Replace with function body.
@@ -423,12 +520,25 @@ func _on_RightArea_body_entered(_area):
 	pass 
 
 
-
 func _on_BottomArea_body_exited(_area):
 	is_grounded = false
 	#velocity.y = 0
 	#velocityToAdd.y = 0
 	
-	print("bb")
 	
+	pass # Replace with function body.
+
+
+
+
+func _on_ClingArea_area_entered(area):
+	currentActionState = stateAction.wall_cling
+	currentClingSlideFactor = area.slipFactor
+	
+	pass # Replace with function body.
+
+
+func _on_ClingArea_area_exited(area):
+	currentActionState = stateAction.neutral
+	currentClingSlideFactor = 0
 	pass # Replace with function body.
