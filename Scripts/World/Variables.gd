@@ -1,14 +1,11 @@
-extends "res://Scripts/Characters/PlayerActions/Action.gd"
-class_name NeutralAction
+extends Node
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
+#Basic Physics
+export var frict = 0.6
+export var gravity = 2.3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_type = actionType.neutral
 	pass # Replace with function body.
 
 

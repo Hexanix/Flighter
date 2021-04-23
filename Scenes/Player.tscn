@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-run-05.png" type="Texture" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Scripts/Components/Moving.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-jump-01.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-run-02.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Art/Player/Individual Sprites/adventurer-idle-01.png" type="Texture" id=6]
@@ -52,15 +51,42 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
+<<<<<<< HEAD
+=======
+"frames": [ ExtResource( 10 ), ExtResource( 16 ) ],
+"loop": true,
+"name": "dash",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 17 ), ExtResource( 25 ), ExtResource( 23 ), ExtResource( 26 ), ExtResource( 24 ) ],
+"loop": false,
+"name": "attack",
+"speed": 10.0
+}, {
+>>>>>>> parent of 86f9f74 (Move To Action change)
 "frames": [ ExtResource( 20 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 15 ) ],
 "loop": false,
 "name": "jump",
 "speed": 20.0
 }, {
+<<<<<<< HEAD
+=======
+"frames": [ ExtResource( 30 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 28 ), ExtResource( 29 ) ],
+"loop": true,
+"name": "attackUp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 21 ), ExtResource( 5 ), ExtResource( 8 ), ExtResource( 11 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "run",
+"speed": 5.0
+}, {
+>>>>>>> parent of 86f9f74 (Move To Action change)
 "frames": [ ExtResource( 9 ), ExtResource( 13 ) ],
 "loop": true,
 "name": "wallCling",
 "speed": 5.0
+<<<<<<< HEAD
 }, {
 "frames": [ ExtResource( 30 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 28 ), ExtResource( 29 ) ],
 "loop": true,
@@ -81,6 +107,8 @@ animations = [ {
 "loop": false,
 "name": "attack",
 "speed": 10.0
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 } ]
 
 [sub_resource type="RectangleShape2D" id=6]
@@ -131,7 +159,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 tracks/3/type = "method"
-tracks/3/path = NodePath("..")
+tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -172,43 +200,43 @@ tracks/1/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 4 ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("playerSprite/attackAreas/attackUp:disabled")
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("playerSprite/attackAreas/attackUp2:disabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.2, 0.6 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath("..")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
 "times": PoolRealArray( 0.6 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "actionState_neutral"
 } ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("playerSprite/attackAreas/attackUp:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("playerSprite/attackAreas/attackUp2:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -358,9 +386,6 @@ script = ExtResource( 32 )
 
 [node name="Controllable" type="Node2D" parent="Components"]
 
-[node name="Moving" type="Node2D" parent="Components"]
-script = ExtResource( 3 )
-
 [node name="playerBody" type="KinematicBody2D" parent="."]
 collision_mask = 16
 
@@ -425,9 +450,15 @@ __meta__ = {
 [node name="playerSprite" type="AnimatedSprite" parent="playerBody"]
 position = Vector2( -4.93266, -8.33792 )
 scale = Vector2( 2.2027, 2.2027 )
+<<<<<<< HEAD
 frames = SubResource( 5 )
 animation = "attackUp"
 frame = 4
+=======
+frames = SubResource( 6 )
+animation = "attack"
+frame = 1
+>>>>>>> parent of 86f9f74 (Move To Action change)
 
 [node name="attackAreas" type="Area2D" parent="playerBody/playerSprite"]
 position = Vector2( 2.23937, 3.78532 )
@@ -448,6 +479,7 @@ modulate = Color( 0.262745, 0.0705882, 0.368627, 1 )
 position = Vector2( 6.54803, -42.2646 )
 shape = SubResource( 8 )
 
+<<<<<<< HEAD
 [node name="playerAnimation" type="AnimationPlayer" parent="playerBody"]
 anims/attack = SubResource( 9 )
 anims/attackUp = SubResource( 10 )
@@ -465,3 +497,18 @@ anims/wallCling = SubResource( 15 )
 [connection signal="area_exited" from="playerBody/ClingArea" to="." method="_on_ClingArea_area_exited"]
 [connection signal="body_entered" from="playerBody/ClingArea" to="." method="_on_ClingArea_body_entered"]
 [connection signal="body_exited" from="playerBody/ClingArea" to="." method="_on_ClingArea_body_exited"]
+=======
+[node name="playerAnimation" type="AnimationPlayer" parent="."]
+anims/attack = SubResource( 10 )
+anims/attackUp = SubResource( 11 )
+anims/dash = SubResource( 12 )
+anims/idle = SubResource( 13 )
+anims/jump = SubResource( 14 )
+anims/run = SubResource( 15 )
+anims/wallCling = SubResource( 16 )
+[connection signal="body_entered" from="playerBody/TopArea" to="playerBody" method="_on_TopArea_body_entered"]
+[connection signal="body_entered" from="playerBody/BottomArea" to="playerBody" method="_on_BottomArea_body_entered"]
+[connection signal="body_exited" from="playerBody/BottomArea" to="playerBody" method="_on_BottomArea_body_exited"]
+[connection signal="body_entered" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_body_entered"]
+[connection signal="body_entered" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_body_entered"]
+>>>>>>> parent of 86f9f74 (Move To Action change)

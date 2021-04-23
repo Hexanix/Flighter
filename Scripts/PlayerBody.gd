@@ -68,8 +68,6 @@ enum stateAction{
 export var currentMoveState = stateMovement.idle_ground
 export var currentActionState = stateAction.neutral
 
-var currentAction : NeutralAction
-
 #Function which sets the position of Area2D side to the edge of PlayerBody 
 func areaClingHandle():
 	var playerBody = get_node("BodyShape")
@@ -120,8 +118,6 @@ func _ready():
 	currentActionState = stateAction.neutral
 	pass
 
-
-
 #Custom functions
 func input_handle():
 	
@@ -151,9 +147,14 @@ func input_handle():
 			elif Input.is_action_pressed("ui_right"):
 				velocityDash.x += dashPower
 				
-		
-		#Action state handle
-		actionState_handle()
+		#ATTACK - direct state change currently
+		if Input.is_action_just_pressed("attack"):
+			
+			if Input.is_action_pressed("ui_up"):
+				currentActionState = stateAction.attack_up
+			else:
+				currentActionState = stateAction.attack
+			pass
 	
 		#IDLE_GROUND
 		if currentMoveState == stateMovement.idle_ground or currentMoveState == stateMovement.moving_ground:
@@ -184,33 +185,13 @@ func input_handle():
 		#WALL_CLING
 		elif currentMoveState == stateMovement.wall_cling:
 			#velocity.y = 0
-			
-			#Normalize all slide-up speed when clinging.
-			if velocity.y < 0:
-				velocityToAdd.y = 2
-				pass
-				
 			velocityToAdd.y = currentClingSlideSpeed
 			pass
 	pass
-
-#Checks input and switches action if possible. Is to be used in Input.
-func actionState_handle():
-	
-		if Input.is_action_just_pressed("attack"):
-			
-			if Input.is_action_pressed("ui_up"):
-				currentActionState = stateAction.attack_up
-			else:
-				currentActionState = stateAction.attack 
-			pass
-	
-	 pass
-
+		
 #Checks in proccess if states should be changed due to PlayerBody interactions
-func  moveState_handle():
+func  state_handle():
 	
-	#MOVEMENT STATE CHECK
 	#Check if dashing
 	if velocityDash.x != 0 or velocityDash.y != 0:
 		currentMoveState = stateMovement.dash
@@ -384,8 +365,8 @@ func _physics_process(delta):
 	input_handle()
 	
 	#State handler
-	moveState_handle()
-	print(velocity.y)
+	state_handle()
+	print(currentMoveState)
 	
 	#Animation handle
 	#Play correct animation according to state
