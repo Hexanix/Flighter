@@ -63,6 +63,9 @@ animations = [ {
 "name": "attack",
 "speed": 10.0
 }, {
+<<<<<<< HEAD
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
 >>>>>>> parent of 86f9f74 (Move To Action change)
 "frames": [ ExtResource( 20 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 15 ) ],
 "loop": false,
@@ -70,7 +73,10 @@ animations = [ {
 "speed": 20.0
 }, {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 "frames": [ ExtResource( 30 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 28 ), ExtResource( 29 ) ],
 "loop": true,
 "name": "attackUp",
@@ -86,6 +92,7 @@ animations = [ {
 "loop": true,
 "name": "wallCling",
 "speed": 5.0
+<<<<<<< HEAD
 <<<<<<< HEAD
 }, {
 "frames": [ ExtResource( 30 ), ExtResource( 27 ), ExtResource( 31 ), ExtResource( 28 ), ExtResource( 29 ) ],
@@ -107,6 +114,8 @@ animations = [ {
 "loop": false,
 "name": "attack",
 "speed": 10.0
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 =======
 >>>>>>> parent of 86f9f74 (Move To Action change)
 } ]
@@ -451,9 +460,15 @@ __meta__ = {
 position = Vector2( -4.93266, -8.33792 )
 scale = Vector2( 2.2027, 2.2027 )
 <<<<<<< HEAD
+<<<<<<< HEAD
 frames = SubResource( 5 )
 animation = "attackUp"
 frame = 4
+=======
+frames = SubResource( 6 )
+animation = "attack"
+frame = 1
+>>>>>>> parent of 86f9f74 (Move To Action change)
 =======
 frames = SubResource( 6 )
 animation = "attack"
@@ -480,6 +495,7 @@ position = Vector2( 6.54803, -42.2646 )
 shape = SubResource( 8 )
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 [node name="playerAnimation" type="AnimationPlayer" parent="playerBody"]
 anims/attack = SubResource( 9 )
 anims/attackUp = SubResource( 10 )
@@ -498,6 +514,8 @@ anims/wallCling = SubResource( 15 )
 [connection signal="body_entered" from="playerBody/ClingArea" to="." method="_on_ClingArea_body_entered"]
 [connection signal="body_exited" from="playerBody/ClingArea" to="." method="_on_ClingArea_body_exited"]
 =======
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 [node name="playerAnimation" type="AnimationPlayer" parent="."]
 anims/attack = SubResource( 10 )
 anims/attackUp = SubResource( 11 )
@@ -511,4 +529,7 @@ anims/wallCling = SubResource( 16 )
 [connection signal="body_exited" from="playerBody/BottomArea" to="playerBody" method="_on_BottomArea_body_exited"]
 [connection signal="body_entered" from="playerBody/LeftArea" to="playerBody" method="_on_LeftArea_body_entered"]
 [connection signal="body_entered" from="playerBody/RightArea" to="playerBody" method="_on_RightArea_body_entered"]
+<<<<<<< HEAD
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
 >>>>>>> parent of 86f9f74 (Move To Action change)

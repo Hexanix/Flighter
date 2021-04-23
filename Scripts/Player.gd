@@ -20,7 +20,11 @@ var speedHorizontal = 5000
 var speedVertical = 100000
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 var currentClingSlideFactor : float = 0
+=======
+var currentClingSlideSpeed = 0
+>>>>>>> parent of 86f9f74 (Move To Action change)
 =======
 var currentClingSlideSpeed = 0
 >>>>>>> parent of 86f9f74 (Move To Action change)
@@ -46,7 +50,12 @@ onready var areaTop = get_node("playerBody/TopArea")
 onready var areaBottom = get_node("playerBody/BottomArea")
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 onready var clingArea : Node = get_node("playerBody/ClingArea")
+=======
+onready var areaClingLeft = get_node("playerBody/LeftClingArea")
+onready var areaClingRight = get_node("playerBody/RightClingArea")
+>>>>>>> parent of 86f9f74 (Move To Action change)
 =======
 onready var areaClingLeft = get_node("playerBody/LeftClingArea")
 onready var areaClingRight = get_node("playerBody/RightClingArea")
@@ -95,6 +104,7 @@ func areaClingHandle():
 		pass
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #Make all these handles use the same method please
 
 #This is supposed to be a generic function, but Godot makes it not work and frankly I can't be bothered looking 
@@ -110,6 +120,8 @@ func genericRubberband_handler(varToTest, varToAdd, rubberbandForce, pivotVariab
 				varToAdd = -varToTest
 pass
 
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 =======
 >>>>>>> parent of 86f9f74 (Move To Action change)
 
@@ -151,9 +163,12 @@ func input_handle():
 	areaClingHandle()
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	#WALL_CLING Action
 	#print(currentActionState)
 	
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 =======
 >>>>>>> parent of 86f9f74 (Move To Action change)
 	#Check if action state is neutral branch
@@ -203,9 +218,12 @@ func input_handle():
 		elif currentMoveState == stateMovement.idle_air or currentMoveState == stateMovement.moving_air:
 			
 <<<<<<< HEAD
+<<<<<<< HEAD
 			#Gravitational Pull
 			#velocityToAdd.y += gravity/7
 			
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 =======
 >>>>>>> parent of 86f9f74 (Move To Action change)
 			if Input.is_action_pressed("ui_right"):
@@ -351,6 +369,17 @@ func clingSlide_handle():
 			if velocity.y + gravity/3 > 0:
 				velocityToAdd.y = -velocity.y
 
+#Wall slide handle
+func clingSlide_handle():
+		if velocity.y > 0:
+			velocityToAdd.y -= gravity/3
+			if velocity.y - gravity/3 < 0:
+				velocityToAdd.y = -velocity.y
+		elif velocity.y < 0:
+			velocityToAdd.y  += gravity/3
+			if velocity.y + gravity/3 > 0:
+				velocityToAdd.y = -velocity.y
+
 #Friction handle
 func friction_handle():
 	if velocity.x > 0:
@@ -383,6 +412,7 @@ func dash_handle():
 #	- Dash slowdown - NOT WORKING IN THIS FUNCTION
 #	- Gravity
 <<<<<<< HEAD
+<<<<<<< HEAD
 func natural_forces_handle(moveState: int, actionState: int) -> void:
 	
 	#Add initial gravity
@@ -392,6 +422,8 @@ func natural_forces_handle(moveState: int, actionState: int) -> void:
 	if actionState == stateAction.wall_cling:
 		clingSlide_handle(currentClingSlideFactor)
 =======
+=======
+>>>>>>> parent of 86f9f74 (Move To Action change)
 func natural_forces_handle(moveState):
 	
 	#Don't add gravity if clinging or grounded
@@ -404,6 +436,9 @@ func natural_forces_handle(moveState):
 		
 	elif !is_grounded:
 		velocity.y += gravity/7
+<<<<<<< HEAD
+>>>>>>> parent of 86f9f74 (Move To Action change)
+=======
 >>>>>>> parent of 86f9f74 (Move To Action change)
 		
 	
@@ -423,6 +458,10 @@ func _physics_process(delta):
 	#State handler
 	state_handle()
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	print(currentMoveState)
+>>>>>>> parent of 86f9f74 (Move To Action change)
 =======
 	print(currentMoveState)
 >>>>>>> parent of 86f9f74 (Move To Action change)
